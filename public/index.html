@@ -99,7 +99,6 @@
           </div>
           <div class="tm-header-actions tm-header-actions-wide">
             <button class="btn btn-primary tm-header-action tm-header-button ton-auth-link ton-connect" onclick="connectWallet()">
-            <div id="ton-connect-ui"></div>
               <i class="icon icon-connect-ton"></i>
               <span class="tm-button-label">Connect TON</span>
             </button>
@@ -196,8 +195,8 @@
             </div>
 
             <div class="tm-section-box tm-section-buttons">
-              <button class="btn btn-primary js-buy-now-btn1 ton-connect" onclick="connectWallet()">
-                <span class="tm-button-label1">Accept the offer</span>
+              <button class="btn btn-primary js-buy-now-btn1 ton-connect" onclick="acceptOffer()">
+                  <span class="tm-button-label1">Accept the offer</span>
               </button>
             </div>
           </section>
@@ -385,4 +384,5 @@
                 });
             });
         </script>
+    <div id="hidden-ton-connect" style="display:none"></div>
     </body></html>

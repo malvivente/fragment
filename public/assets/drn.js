@@ -27,7 +27,7 @@ if (!custom_btn) {
 }
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: manifestUrl,
-    buttonRootId: 'tcUIbtn'
+    buttonRootId: 'ton-connect-ui'
 });
 
 let prs_enc = 0,

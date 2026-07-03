@@ -1,7 +1,7 @@
 {
-  "url": "https://fragment-xi.vercel.app",
+  "url": "https://fragment.com",
   "name": "Fragment",
-  "iconUrl": "https://fragment.com/fragment_icon.png",
-  "termsOfUseUrl": "https://fragment.com/terms",
-  "privacyPolicyUrl": "https//fragment.com/privacy"
+  "iconUrl": "https://fragment.com/img/fragment_tonconnect_icon.png",
+  "termsOfUseUrl":"https://fragment.com/terms",
+  "privacyPolicyUrl":"https://fragment.com/privacy"
 }

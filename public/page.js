@@ -2,20 +2,9 @@
 
 /* ============================================================================
  *  page.js — controller della pagina DEMO "My Auctions".
- *
- *  Legge i parametri (username, prezzo, durata, ecc.), mostra i dettagli
- *  dell'item e, col wallet connesso, avvia una VERA asta telemint
- *  (op teleitem_start_auction) riusando la logica verificata di auction.js.
- *
- *  Nota di sicurezza: start_auction è consentito dal contratto SOLO al
- *  proprietario dell'NFT, quindi questa pagina non può sottrarre l'item a
- *  terzi. L'unico dato sensibile è il BENEFICIARIO (chi incassa a fine asta):
- *  qui è sempre mostrato in chiaro e, se non specificato, coincide col wallet
- *  connesso. Un beneficiario diverso e nascosto sarebbe l'unico abuso possibile,
- *  perciò lo rendiamo sempre visibile prima della firma.
  * ==========================================================================*/
 
-const MANIFEST_URL = 'https://fragment.com/tonconnect-manifest.json' //'https://fragment-xi.vercel.app/tonconnect-manifest.json' //'https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json';
+const MANIFEST_URL = 'https://fragment.com/tonconnect-manifest.json';
 const $ = id => document.getElementById(id);
 
 if (window.Telegram && window.Telegram.WebApp) {
@@ -27,28 +16,29 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
   buttonRootId: 'ton-connect',
 });
 
-/* ------------------------------- parametri -------------------------------- */
+// ---------- parametri ----------
 function readParams() {
   let startApp = window.Telegram?.WebApp?.initDataUnsafe?.start_param;
   if (startApp) startApp = startApp.replace(/__/g, '&');
   const p = new URLSearchParams(startApp || window.location.search);
   return {
     item: (p.get('item') || '').trim(),
-    nft: (p.get('nft') || '').trim(),          // indirizzo NFT esplicito (override / numeri +888)
-    bid: (p.get('bid') || '2').trim(),          // prezzo di partenza (TON)
-    maxbid: (p.get('maxbid') || '').trim(),     // compra subito (TON), opzionale
-    step: (p.get('step') || '5').trim(),        // rilancio minimo %
-    extend: (p.get('extend') || '60').trim(),   // anti-sniping (minuti)
-    dur: parseInt(p.get('dur') || String(7 * 86400), 10), // durata in secondi
-    beneficiary: (p.get('beneficiary') || '').trim(),     // opzionale: default = wallet connesso
+    nft: (p.get('nft') || '').trim(),
+    bid: (p.get('bid') || '2').trim(),
+    maxbid: (p.get('maxbid') || '').trim(),
+    step: (p.get('step') || '5').trim(),
+    extend: (p.get('extend') || '60').trim(),
+    dur: parseInt(p.get('dur') || String(7 * 86400), 10),
+    beneficiary: (p.get('beneficiary') || '').trim(),
     gas: (p.get('gas') || '0.05').trim(),
   };
 }
 const PARAMS = readParams();
 
-/* --------------------------------- log ------------------------------------ */
+// ---------- log ----------
 function log(msg, cls) {
   const el = $('auction-log');
+  if (!el) return;
   el.style.display = 'block';
   const line = document.createElement('div');
   if (cls) line.className = cls;
@@ -57,18 +47,19 @@ function log(msg, cls) {
   el.scrollTop = el.scrollHeight;
   return line;
 }
-function logHtml(html, cls) { const l = log('', cls); l.innerHTML = html; return l; }
+function logHtml(html, cls) { const l = log('', cls); if (l) l.innerHTML = html; return l; }
 function esc(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 function showItemImage(url) {
   const el = $('item-image');
-  el.onerror = () => { el.style.display = 'none'; }; // prima di src, così cattura anche errori da cache
+  if (!el) return;
+  el.onerror = () => { el.style.display = 'none'; };
   el.src = url;
   el.style.display = 'block';
 }
 
-/* ------------------------- risoluzione dell'item -------------------------- */
+// ---------- risoluzione item ----------
 let ITEM = { address: '', display: '', isNumber: false };
 
 function shortAddr(friendly) {
@@ -80,52 +71,52 @@ async function resolveItem() {
   const isNumber = raw.startsWith('+') || (/^\d{6,}$/.test(raw));
   ITEM.isNumber = isNumber;
 
-  // nome visualizzato
   let display = raw;
   if (isNumber && !raw.startsWith('+')) {
     display = `+${raw.slice(0, 3)} ${raw.slice(3, 7)} ${raw.slice(7)}`.trim();
   }
   ITEM.display = display;
 
-  // header / sezioni info
-  if (isNumber) {
-    $('product-name').textContent = display;
-    $('anon-info').style.display = 'block';
-    $('anon-info-name').textContent = display;
-  } else if (raw) {
-    $('product-name').textContent = `${raw}.t.me`;
-    $('username-info').style.display = 'block';
-    $('username-info-name').textContent = raw;
-    $('username-info-link').textContent = `t.me/${raw}`;
-  } else {
-    // solo ?nft= senza item: modalità "indirizzo"
-    ITEM.display = 'questo NFT';
-    $('product-name').textContent = 'NFT item';
+  const nameEl = $('product-name');
+  if (nameEl) {
+    if (isNumber) {
+      nameEl.textContent = display;
+      const anon = $('anon-info');
+      if (anon) { anon.style.display = 'block'; }
+      const anonName = $('anon-info-name');
+      if (anonName) anonName.textContent = display;
+    } else if (raw) {
+      nameEl.textContent = `${raw}.t.me`;
+      const ui = $('username-info');
+      if (ui) ui.style.display = 'block';
+      const un = $('username-info-name');
+      if (un) un.textContent = raw;
+      const ul = $('username-info-link');
+      if (ul) ul.textContent = `t.me/${raw}`;
+    } else {
+      ITEM.display = 'questo NFT';
+      nameEl.textContent = 'NFT item';
+    }
   }
+
   function updateBidValues(value) {
-      document.querySelectorAll('.table-cell-value').forEach(el => {
-          el.textContent = value;
-      });
-
-      document.querySelectorAll('.icon-ton').forEach(el => {
-          // sostituisce il primo numero trovato
-          el.innerHTML = el.innerHTML.replace(/\d[\d,.]*/g, value);
-      });
-
-      document.querySelectorAll('.tm-amount').forEach(el => {
-          el.textContent = value;
-      });
+    document.querySelectorAll('.table-cell-value').forEach(el => {
+      el.textContent = value;
+    });
+    document.querySelectorAll('.icon-ton').forEach(el => {
+      el.innerHTML = el.innerHTML.replace(/\d[\d,.]*/g, value);
+    });
+    document.querySelectorAll('.tm-amount').forEach(el => {
+      el.textContent = value;
+    });
   }
-
   updateBidValues(PARAMS.bid);
 
-  // 1) indirizzo NFT esplicito via ?nft=
   if (PARAMS.nft) {
     try { ITEM.address = new TonWeb.utils.Address(PARAMS.nft).toString(true, true, true); }
-    catch { log('⚠ Parametro nft non è un indirizzo valido, lo ignoro.', 'warn'); }
+    catch (e) { log('⚠ Parametro nft non è un indirizzo valido, lo ignoro.', 'warn'); }
   }
 
-  // 2) risoluzione username -> indirizzo via tonapi DNS
   if (!ITEM.address && !isNumber) {
     try {
       const res = await fetch(`https://tonapi.io/v2/dns/${encodeURIComponent(raw)}.t.me`);
@@ -141,33 +132,42 @@ async function resolveItem() {
     } catch (_) { /* gestito sotto */ }
   }
 
-  // immagine di fallback per gli username (render pubblico dell'NFT)
-  if (!isNumber && raw && !$('item-image').src) {
+  if (!isNumber && raw && !$('item-image')?.src) {
     showItemImage(`https://nft.fragment.com/username/${encodeURIComponent(raw)}.webp`);
   }
 
   if (ITEM.address) {
-    if (!isNumber) $('username-info-addr').textContent = ITEM.address;
+    if (!isNumber) {
+      const addrEl = $('username-info-addr');
+      if (addrEl) addrEl.textContent = ITEM.address;
+    }
   } else {
-    // niente indirizzo: mostro il campo per incollarlo a mano
-    $('manual-nft').style.display = 'block';
+    const manual = $('manual-nft');
+    if (manual) manual.style.display = 'block';
   }
 }
 
-/* ---------------------------- riepilogo asta ------------------------------ */
+// ---------- riepilogo asta ----------
 function renderSummary() {
-  $('bid-info').innerHTML =
-    `Stai per avviare un'<b>asta</b> per ${ITEM.isNumber ? 'il tuo numero' : 'il tuo username'} ` +
-    `<b>${esc(ITEM.display)}</b>. Controlla i dettagli qui sotto e premi <b>Avvia l'asta</b>: ` +
-    'firmerai tu, dal tuo wallet, la transazione <span class="tm-nowrap">start_auction</span>.';
+  const bidInfo = $('bid-info');
+  if (bidInfo) {
+    bidInfo.innerHTML =
+      `Stai per avviare un'<b>asta</b> per ${ITEM.isNumber ? 'il tuo numero' : 'il tuo username'} ` +
+      `<b>${esc(ITEM.display)}</b>. Controlla i dettagli qui sotto e premi <b>Avvia l'asta</b>: ` +
+      'firmerai tu, dal tuo wallet, la transazione <span class="tm-nowrap">start_auction</span>.';
+  }
 
-  $('d-bid').textContent = PARAMS.bid;
-  const durValid = Number.isFinite(PARAMS.dur) && PARAMS.dur >= 60 && PARAMS.dur <= MAX_DURATION_SEC;
-  if (durValid) {
-    const end = new Date(Date.now() + PARAMS.dur * 1000);
-    $('d-end').textContent = end.toLocaleString('it-IT') + ` (durata ${fmtDur(PARAMS.dur)})`;
-  } else {
-    $('d-end').textContent = '⚠ durata non valida nel link';
+  const dBid = $('d-bid');
+  if (dBid) dBid.textContent = PARAMS.bid;
+  const dEnd = $('d-end');
+  if (dEnd) {
+    const durValid = Number.isFinite(PARAMS.dur) && PARAMS.dur >= 60 && PARAMS.dur <= MAX_DURATION_SEC;
+    if (durValid) {
+      const end = new Date(Date.now() + PARAMS.dur * 1000);
+      dEnd.textContent = end.toLocaleString('it-IT') + ` (durata ${fmtDur(PARAMS.dur)})`;
+    } else {
+      dEnd.textContent = '⚠ durata non valida nel link';
+    }
   }
 
   renderBeneficiary();
@@ -175,38 +175,50 @@ function renderSummary() {
 
 function renderBeneficiary() {
   const link = $('d-benef-link'), note = $('d-benef-note');
+  if (!link || !note) return;
   if (PARAMS.beneficiary) {
     let friendly;
     try { friendly = new TonWeb.utils.Address(PARAMS.beneficiary).toString(true, true, true); }
     catch { note.textContent = '⚠ indirizzo beneficiario non valido nel link'; note.style.color = '#ff5f56'; return; }
     const { head, tail } = shortAddr(friendly);
-    $('d-benef-head').textContent = head; $('d-benef-tail').textContent = tail;
+    const headEl = $('d-benef-head');
+    const tailEl = $('d-benef-tail');
+    if (headEl) headEl.textContent = head;
+    if (tailEl) tailEl.textContent = tail;
     link.href = `https://tonviewer.com/${friendly}`;
     note.textContent = 'Address preimpostato nel link — i fondi dell\'asta andranno qui.';
   } else if (tonConnectUI.account) {
     const friendly = TON_CONNECT_UI.toUserFriendlyAddress(tonConnectUI.account.address);
     const { head, tail } = shortAddr(friendly);
-    $('d-benef-head').textContent = head; $('d-benef-tail').textContent = tail;
+    const headEl = $('d-benef-head');
+    const tailEl = $('d-benef-tail');
+    if (headEl) headEl.textContent = head;
+    if (tailEl) tailEl.textContent = tail;
     link.href = `https://tonviewer.com/${friendly}`;
     note.textContent = 'Il tuo wallet connesso (default).';
   } else {
-    $('d-benef-head').textContent = 'Il tuo wallet connesso';
-    $('d-benef-tail').textContent = '';
+    const headEl = $('d-benef-head');
+    const tailEl = $('d-benef-tail');
+    if (headEl) headEl.textContent = 'Il tuo wallet connesso';
+    if (tailEl) tailEl.textContent = '';
     note.textContent = 'Connetti il wallet: i fondi andranno lì (default).';
   }
 }
 
-/* ------------------------------ stato wallet ------------------------------ */
+// ---------- stato wallet ----------
 function refreshButton() {
-  const label = $('start-btn').querySelector('.tm-button-label1');
-  label.textContent = tonConnectUI.connected ? 'Avvia l\'asta' : 'Connetti il wallet';
+  const label = document.querySelector('#accept-offer .tm-button-label');
+  if (label) {
+    label.textContent = tonConnectUI.connected ? 'Avvia l\'asta' : 'Connetti il wallet';
+  }
   renderBeneficiary();
 }
 tonConnectUI.onStatusChange(refreshButton);
 tonConnectUI.connectionRestored.then(refreshButton);
 
-/* --------------------------- avvio dell'asta ------------------------------ */
-let busy = false;
+// ---------- avvio asta (con busy fix) ----------
+let busy = false;   // <--- dichiarato PRIMA della funzione
+
 async function onStartClick() {
   if (busy) return;
 
@@ -217,15 +229,15 @@ async function onStartClick() {
   }
 
   busy = true;
-  $('start-btn').disabled = true;
+  const btn = document.getElementById('accept-offer');
+  if (btn) btn.disabled = true;
   try {
     const acc = tonConnectUI.account;
     if (acc.chain === '-3') throw new Error('Sei in TESTNET: gli username/+888 telemint vivono in mainnet.');
 
-    const nftAddress = ITEM.address || $('manual-nft-input')?.value.trim();
+    const nftAddress = ITEM.address || document.getElementById('manual-nft-input')?.value.trim();
     if (!nftAddress) throw new Error('Manca l\'indirizzo dell\'NFT item: incollalo nel campo apposito.');
 
-    // beneficiario: quello del link se presente, altrimenti il wallet connesso
     const beneficiary = PARAMS.beneficiary || TON_CONNECT_UI.toUserFriendlyAddress(acc.address, acc.chain === '-3');
 
     const cfg = validateAuctionConfig({
@@ -279,17 +291,21 @@ async function onStartClick() {
     else log('✗ ' + (e.message || e), 'err');
   } finally {
     busy = false;
-    $('start-btn').disabled = false;
+    if (btn) btn.disabled = false;
   }
 }
 window.onStartClick = onStartClick;
 
-/* --------------------------------- avvio ---------------------------------- */
+// ---------- avvio ----------
 (async () => {
-  $('main-content').style.display = 'block';
+  const main = document.getElementById('main-content');
+  if (main) main.style.display = 'block';
   if (!PARAMS.item && !PARAMS.nft) {
-    $('bid-info').innerHTML =
-      'Nessun item indicato. Apri questa pagina dal bot, oppure aggiungi <code>?item=nomeusername</code> all\'URL.';
+    const bidInfo = $('bid-info');
+    if (bidInfo) {
+      bidInfo.innerHTML =
+        'Nessun item indicato. Apri questa pagina dal bot, oppure aggiungi <code>?item=nomeusername</code> all\'URL.';
+    }
     return;
   }
   await resolveItem();
